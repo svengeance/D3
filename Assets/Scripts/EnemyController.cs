@@ -3,12 +3,10 @@ using UnityEngine;
 public class EnemyController : MonoBehaviour
 {
     [SerializeField]
-    private EnemyData enemyData;
-    
-    public PlayerController player;
+    private EnemyData _enemyData;
 
-    public void Initialize(PlayerController playerController)
-    {
-        player = playerController;
-    }
+    public PlayerController _player;
+
+    public void Initialize(PlayerController playerController) =>
+        _player = playerController;
 }

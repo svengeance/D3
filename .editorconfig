@@ -1,0 +1,11 @@
+
+[*]
+indent_style = space
+indent_size = 4
+tab_width = 4
+
+[*.cs]
+# ReSharper properties
+resharper_keep_existing_attribute_arrangement = false
+resharper_place_field_attribute_on_same_line = false
+# ReSharper inspection severities

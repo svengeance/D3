@@ -4,34 +4,33 @@ using UnityEngine;
 public class EnemyMovementBehavior : MonoBehaviour
 {
     [SerializeField]
-    private EnemyController controller;
-    
-    private Rigidbody2D _rb;
-    private Collider2D _playerCollider;
-    
-    private Vector2 _lastMovementDirection = Vector2.left;
+    private EnemyController _controller;
+
     private float _currentSpeedMultiplier = 1f;
-    
-    private void Awake()
-    {
+
+    private Vector2 _lastMovementDirection = Vector2.left;
+    private Collider2D _playerCollider;
+
+    private Rigidbody2D _rb;
+
+    private void Awake() =>
         _rb = GetComponent<Rigidbody2D>();
+
+    private void FixedUpdate()
+    {
+        var movement = CalculateMovement();
+
+        FacePlayerToMovement(movement);
+
+        _rb.linearVelocity = movement;
     }
 
     public void Initialize(EnemyController enemyController)
     {
-        controller = enemyController;
-        _playerCollider = controller.player.GetComponent<Collider2D>();
+        _controller = enemyController;
+        _playerCollider = _controller._player.GetComponent<Collider2D>();
     }
-    
-    void FixedUpdate()
-    {
-        var movement = CalculateMovement();
-        
-        FacePlayerToMovement(movement);
-        
-        _rb.linearVelocity = movement;
-    }
-    
+
     private Vector2 CalculateMovement()
     {
         var moveLeft = Vector2.left;
@@ -48,7 +47,7 @@ public class EnemyMovementBehavior : MonoBehaviour
         var exaggeratedTurn = Mathf.SmoothStep(0f, 1f, deltaTurnAngle * curveMultiplier);
         var targetSpeedMultiplier = Mathf.Lerp(1f, 0.10f, exaggeratedTurn);
         var inertiaSpeed = 8f;
-        
+
         _currentSpeedMultiplier = Mathf.Lerp(_currentSpeedMultiplier, targetSpeedMultiplier, Time.fixedDeltaTime * inertiaSpeed);
         _lastMovementDirection = desiredMovement; // Update for next frame
 
@@ -61,7 +60,7 @@ public class EnemyMovementBehavior : MonoBehaviour
         var bufferZone = 0.5f; // Vertical soft buffer
         var horizontalStartBuffer = 1.5f; // Horizontal range to start avoidance
 
-        float distanceFromPlayerX = Mathf.Max(0f, _rb.position.x - playerBounds.max.x);
+        var distanceFromPlayerX = Mathf.Max(0f, _rb.position.x - playerBounds.max.x);
         if (distanceFromPlayerX > horizontalStartBuffer)
             return Vector2.zero; // Too far right, no vertical movement yet
 
@@ -94,6 +93,7 @@ public class EnemyMovementBehavior : MonoBehaviour
         Physics2D.OverlapCircle(_rb.position, separationRadius, new ContactFilter2D(), neighbors);
 
         var separationForce = Vector2.zero;
+
         foreach (var neighbor in neighbors)
         {
             if (neighbor.attachedRigidbody == _rb)
@@ -108,12 +108,12 @@ public class EnemyMovementBehavior : MonoBehaviour
 
         return separationForce;
     }
-    
+
     private void FacePlayerToMovement(Vector2 movement)
     {
         if (Mathf.Approximately(movement.sqrMagnitude, 0f))
             return;
-        
+
         _rb.rotation = Mathf.Atan2(movement.y, movement.x) * Mathf.Rad2Deg + 90f;
     }
 }

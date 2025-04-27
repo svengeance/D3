@@ -3,23 +3,23 @@ using UnityEngine;
 public class SpawnerController : MonoBehaviour
 {
     [SerializeField]
-    private EnemyController _enemyPrefab;
+    private EnemyController _enemy;
 
     [SerializeField]
-    private PlayerController _playerPrefab;
+    private PlayerController _player;
 
     [SerializeField]
     private float _spawnFrequency = 1.0f;
 
-    private void Start() =>
-        InvokeRepeating(nameof(Spawn), 0.5f, _spawnFrequency);
+    private void Start()
+        => InvokeRepeating(nameof(Spawn), 0.5f, _spawnFrequency);
 
     private void Spawn()
     {
         var randomY = Random.Range(-3f, 3f);
         var spawnPosition = new Vector2(transform.position.x, transform.position.y + randomY);
 
-        var newEnemy = Instantiate(_enemyPrefab, spawnPosition, Quaternion.identity);
-        newEnemy.Initialize(_playerPrefab);
+        var newEnemy = Instantiate(_enemy, spawnPosition, Quaternion.identity);
+        newEnemy.Initialize(_player);
     }
 }

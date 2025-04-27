@@ -44,4 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6cedbd79d72a81f489583121ef697ef6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Enemy>k__BackingField: {fileID: 4653077199950369170, guid: 1adece6bade94dc42affcbc078981444, type: 3}
+  _enemy: {fileID: 7823205900920248483, guid: 8adc87feec217ca4f97b7140f079203b, type: 3}
+  _player: {fileID: 0}
+  _spawnFrequency: 1

@@ -48,8 +48,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb22719d0862b3247b94f4545aa8d9cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyData: {fileID: 0}
-  player: {fileID: 0}
+  _enemyData: {fileID: 0}
+  <Player>k__BackingField: {fileID: 0}
 --- !u!114 &2381667885379314634
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62,7 +62,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05b46c4280d008e4cafde3fb542b226c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controller: {fileID: 7823205900920248483}
+  _enemy: {fileID: 7823205900920248483}
 --- !u!50 &5879468417146155605
 Rigidbody2D:
   serializedVersion: 5
@@ -100,6 +100,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8964388399671232108}
   - component: {fileID: 3712167675425569294}
+  - component: {fileID: 6283473055688155429}
   m_Layer: 0
   m_Name: Hitbox
   m_TagString: Untagged
@@ -168,6 +169,19 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.4203024, y: 0.38040423}
   m_EdgeRadius: 0
+--- !u!114 &6283473055688155429
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4987461562707634483}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e653bf9fe0326847ae2b62ba10c2b96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <Enemy>k__BackingField: {fileID: 7823205900920248483}
 --- !u!1 &9036453465988854843
 GameObject:
   m_ObjectHideFlags: 0

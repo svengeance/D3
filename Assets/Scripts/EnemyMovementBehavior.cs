@@ -1,20 +1,25 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class EnemyMovementBehavior : MonoBehaviour
 {
     [SerializeField]
-    private EnemyController _controller;
+    private EnemyController _enemy;
 
     private float _currentSpeedMultiplier = 1f;
 
     private Vector2 _lastMovementDirection = Vector2.left;
-    private Collider2D _playerCollider;
 
     private Rigidbody2D _rb;
 
-    private void Awake() =>
+    private float _verticalBufferAroundPlayer;
+
+    private void Awake()
+    {
         _rb = GetComponent<Rigidbody2D>();
+        _verticalBufferAroundPlayer = Random.Range(0.3f, 1f);
+    }
 
     private void FixedUpdate()
     {
@@ -23,12 +28,6 @@ public class EnemyMovementBehavior : MonoBehaviour
         FacePlayerToMovement(movement);
 
         _rb.linearVelocity = movement;
-    }
-
-    public void Initialize(EnemyController enemyController)
-    {
-        _controller = enemyController;
-        _playerCollider = _controller._player.GetComponent<Collider2D>();
     }
 
     private Vector2 CalculateMovement()
@@ -56,8 +55,7 @@ public class EnemyMovementBehavior : MonoBehaviour
 
     private Vector2 CalculateMovementAroundPlayer()
     {
-        var playerBounds = _playerCollider.bounds;
-        var bufferZone = 0.5f; // Vertical soft buffer
+        var playerBounds = _enemy.Player.Collider.bounds;
         var horizontalStartBuffer = 1.5f; // Horizontal range to start avoidance
 
         var distanceFromPlayerX = Mathf.Max(0f, _rb.position.x - playerBounds.max.x);
@@ -65,7 +63,7 @@ public class EnemyMovementBehavior : MonoBehaviour
             return Vector2.zero; // Too far right, no vertical movement yet
 
         // Vertical avoidance strength
-        var verticalDistanceToEdge = Mathf.Max(0f, Mathf.Abs(_rb.position.y - playerBounds.center.y) - playerBounds.extents.y) / bufferZone;
+        var verticalDistanceToEdge = Mathf.Max(0f, Mathf.Abs(_rb.position.y - playerBounds.center.y) - playerBounds.extents.y) / _verticalBufferAroundPlayer;
         var verticalFalloff = 1f - Mathf.Clamp01(verticalDistanceToEdge);
         verticalFalloff = Mathf.SmoothStep(0f, 1f, verticalFalloff);
 
@@ -114,6 +112,6 @@ public class EnemyMovementBehavior : MonoBehaviour
         if (Mathf.Approximately(movement.sqrMagnitude, 0f))
             return;
 
-        _rb.rotation = Mathf.Atan2(movement.y, movement.x) * Mathf.Rad2Deg + 90f;
+        _rb.rotation = Mathf.Atan2(movement.y, movement.x) * Mathf.Rad2Deg + 180f;
     }
 }

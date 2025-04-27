@@ -5,8 +5,12 @@ public class EnemyController : MonoBehaviour
     [SerializeField]
     private EnemyData _enemyData;
 
-    public PlayerController _player;
+    [field: SerializeField]
+    public PlayerController Player { get; private set; }
 
-    public void Initialize(PlayerController playerController) =>
-        _player = playerController;
+    public void Initialize(PlayerController playerController)
+        => Player = playerController;
+
+    public void Die()
+        => Destroy(gameObject);
 }

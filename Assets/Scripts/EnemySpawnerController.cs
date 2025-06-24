@@ -1,0 +1,25 @@
+using UnityEngine;
+
+public class EnemySpawnerController : MonoBehaviour
+{
+    [SerializeField]
+    private EnemyController _enemy;
+
+    [SerializeField]
+    private PlayerController _player;
+
+    [SerializeField]
+    private float _spawnFrequency = 1.0f;
+
+    private void Start()
+        => InvokeRepeating(nameof(Spawn), 0.5f, _spawnFrequency);
+
+    private void Spawn()
+    {
+        var randomY = Random.Range(-3f, 3f);
+        var spawnPosition = new Vector2(transform.position.x, transform.position.y + randomY);
+
+        var newEnemy = Instantiate(_enemy, spawnPosition, Quaternion.identity);
+        newEnemy.Initialize(_player);
+    }
+}

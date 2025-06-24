@@ -2,15 +2,14 @@ using UnityEngine;
 
 public class ProjectileSpawnerController : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    [field: SerializeField]
+    public ProjectileController Projectile { get; private set; }
 
-    // Update is called once per frame
-    void Update()
+    public ProjectileController SpawnProjectile(ProjectileData data, Vector2 position)
     {
-        
+        var projectile = Instantiate(Projectile, position, Quaternion.identity);
+        projectile.Initialize(data);
+
+        return projectile;
     }
 }

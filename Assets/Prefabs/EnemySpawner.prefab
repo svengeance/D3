@@ -45,5 +45,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enemy: {fileID: 7823205900920248483, guid: 8adc87feec217ca4f97b7140f079203b, type: 3}
-  _player: {fileID: 0}
+  _player: {fileID: 6217912416628067865, guid: e77020c74de6af4428ab7e4ca2eca9da, type: 3}
   _spawnFrequency: 1

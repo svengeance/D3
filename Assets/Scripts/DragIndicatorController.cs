@@ -18,44 +18,72 @@ public class DragIndicatorController : MonoBehaviour
     public Color EndColor { get; private set; }
 
     [field: SerializeField]
-    public LineRenderer LineRenderer { get; private set; }
+    public LineRenderer LaunchRenderer { get; private set; }
 
-    public bool IsDragging => LineRenderer.enabled;
+    [field: SerializeField]
+    public LineRenderer GuidelineRenderer { get; private set; }
+
+    [field: SerializeField]
+    public bool EnableGuideline { get; private set; } = true;
+
+    public bool IsDragging => LaunchRenderer.enabled;
 
     private void Awake()
     {
-        LineRenderer.enabled = false;
-        LineRenderer.positionCount = 2;
+        LaunchRenderer.enabled = false;
+        LaunchRenderer.positionCount = 2;
     }
 
     public void StartDrag(Vector3 start)
     {
-        LineRenderer.enabled = true;
-        LineRenderer.startColor = StartColor;
-        LineRenderer.endColor = EndColor;
+        LaunchRenderer.enabled = true;
+        LaunchRenderer.startColor = StartColor;
+        LaunchRenderer.endColor = EndColor;
 
-        LineRenderer.SetPosition(0, start);
-        LineRenderer.SetPosition(1, start);
+        LaunchRenderer.SetPosition(0, start);
+        LaunchRenderer.SetPosition(1, start);
     }
 
     public void Drag(Vector3 position)
-        => LineRenderer.SetPosition(1, position);
+    {
+        LaunchRenderer.SetPosition(1, position);
+
+        SyncGuideline();
+    }
 
     public void EndDrag()
     {
-        LineRenderer.enabled = false;
-        LineRenderer.SetPosition(0, Vector3.zero);
-        LineRenderer.SetPosition(1, Vector3.zero);
+        LaunchRenderer.enabled = false;
+        LaunchRenderer.SetPosition(0, Vector3.zero);
+        LaunchRenderer.SetPosition(1, Vector3.zero);
+
+        SyncGuideline();
     }
 
     public Vector2 GetLaunchVector()
     {
-        var start = LineRenderer.GetPosition(0);
-        var end = LineRenderer.GetPosition(1);
+        var start = LaunchRenderer.GetPosition(0);
+        var end = LaunchRenderer.GetPosition(1);
 
         var direction = (start - end).normalized;
         var distance = Vector2.Distance(end, start);
 
         return direction * (distance * ForceMultiplier);
+    }
+
+    private void SyncGuideline()
+    {
+        GuidelineRenderer.enabled = LaunchRenderer.enabled;
+
+        if (!EnableGuideline)
+            return;
+
+        var launchVector = GetLaunchVector();
+        var guidelineStart = LaunchRenderer.GetPosition(0);
+        var guidelineEnd = launchVector.normalized * 100f;
+
+        GuidelineRenderer.positionCount = 2;
+        GuidelineRenderer.SetPosition(0, guidelineStart);
+        GuidelineRenderer.SetPosition(1, guidelineEnd);
     }
 }

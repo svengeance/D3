@@ -200,8 +200,8 @@ PrefabInstance:
       value: DragIndicator
       objectReference: {fileID: 0}
     - target: {fileID: 3720701040893378633, guid: 9a02280dc2d56514286056a57be560c1, type: 3}
-      propertyPath: m_Parameters.numCapVertices
-      value: 5
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5198753565423366988, guid: 9a02280dc2d56514286056a57be560c1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -244,32 +244,16 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8860294512628789980, guid: 9a02280dc2d56514286056a57be560c1, type: 3}
-      propertyPath: <EndColor>k__BackingField.a
-      value: 0.7294118
-      objectReference: {fileID: 0}
-    - target: {fileID: 8860294512628789980, guid: 9a02280dc2d56514286056a57be560c1, type: 3}
-      propertyPath: <EndColor>k__BackingField.b
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8860294512628789980, guid: 9a02280dc2d56514286056a57be560c1, type: 3}
-      propertyPath: <EndColor>k__BackingField.g
-      value: 0.060963117
-      objectReference: {fileID: 0}
-    - target: {fileID: 8860294512628789980, guid: 9a02280dc2d56514286056a57be560c1, type: 3}
-      propertyPath: <EndColor>k__BackingField.r
+      propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8860294512628789980, guid: 9a02280dc2d56514286056a57be560c1, type: 3}
-      propertyPath: <StartColor>k__BackingField.a
-      value: 0.45490196
-      objectReference: {fileID: 0}
+      propertyPath: <LineRenderer>k__BackingField
+      value: 
+      objectReference: {fileID: 2042949905}
     - target: {fileID: 8860294512628789980, guid: 9a02280dc2d56514286056a57be560c1, type: 3}
-      propertyPath: <StartColor>k__BackingField.b
-      value: 0.07058823
-      objectReference: {fileID: 0}
-    - target: {fileID: 8860294512628789980, guid: 9a02280dc2d56514286056a57be560c1, type: 3}
-      propertyPath: <StartColor>k__BackingField.g
-      value: 0.27094662
+      propertyPath: <ForceMultiplier>k__BackingField
+      value: 25
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -390,6 +374,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerManager
       objectReference: {fileID: 0}
+    - target: {fileID: 5327593549591038767, guid: d47535c8640ad1f45a38351f09ffe48a, type: 3}
+      propertyPath: <SelectedProjectileData>k__BackingField
+      value: 
+      objectReference: {fileID: 3457455928455242944, guid: 75920f5be5636b44a86a14ef85109ddb, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -589,6 +577,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f5275e62a17cbd647a47b9f6622dfafa, type: 3}
+--- !u!120 &2042949905 stripped
+LineRenderer:
+  m_CorrespondingSourceObject: {fileID: 3720701040893378633, guid: 9a02280dc2d56514286056a57be560c1, type: 3}
+  m_PrefabInstance: {fileID: 268876173}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2053671496
 PrefabInstance:
   m_ObjectHideFlags: 0

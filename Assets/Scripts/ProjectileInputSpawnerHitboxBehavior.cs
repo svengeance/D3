@@ -17,23 +17,23 @@ public class ProjectileInputSpawnerHitboxBehavior : MonoBehaviour, IInteractable
     [field: SerializeField]
     public float RotationSpeed { get; private set; }
 
-    private bool _borderIndicatorRotating;
+    private bool BorderIndicatorRotating { get; set; }
 
-    private DragIndicatorController _dragIndicator;
+    private DragIndicatorController DragIndicator { get; set; }
 
-    private float _initialColliderRadius;
+    private float InitialColliderRadius { get; set; }
 
     private void Awake()
     {
-        _dragIndicator = Controller.DragIndicator;
-        _initialColliderRadius = Collider.radius;
+        DragIndicator = Controller.DragIndicator;
+        InitialColliderRadius = Collider.radius;
 
         InitializeBorderIndicator();
     }
 
     private void Update()
     {
-        if (!_borderIndicatorRotating)
+        if (!BorderIndicatorRotating)
             return;
 
         var offset = Time.time * RotationSpeed;
@@ -42,44 +42,44 @@ public class ProjectileInputSpawnerHitboxBehavior : MonoBehaviour, IInteractable
 
     public void OnDragStart(Vector2 pos)
     {
-        _dragIndicator.StartDrag(pos);
+        DragIndicator.StartDrag(pos);
 
         Collider.radius = 100f;
     }
 
     public void OnDragEnd(Vector2 pos)
     {
-        if (!Collider.bounds.Contains(pos))
-            DisableSpawner();
+        Collider.radius = InitialColliderRadius;
 
-        _dragIndicator.EndDrag();
+        var launchForce = DragIndicator.GetLaunchVector();
+        DragIndicator.EndDrag();
 
-        Collider.radius = _initialColliderRadius;
+        Controller.SpawnProjectile(pos, launchForce);
     }
 
     public void OnDrag(Vector2 pos)
-        => _dragIndicator.Drag(pos);
+        => DragIndicator.Drag(pos);
 
     public void OnPointerEnter(Vector2 pos)
         => EnableSpawner();
 
     public void OnPointerExit(Vector2 pos)
     {
-        if (!_dragIndicator.IsDragging)
+        if (!DragIndicator.IsDragging)
             DisableSpawner();
     }
 
     private void EnableSpawner()
     {
-        _borderIndicatorRotating = true;
+        BorderIndicatorRotating = true;
 
         BorderIndicator.material.color = Color.white;
     }
 
     private void DisableSpawner()
     {
-        _borderIndicatorRotating = false;
-        _dragIndicator.EndDrag();
+        BorderIndicatorRotating = false;
+        DragIndicator.EndDrag();
 
         BorderIndicator.material.color = Color.gray;
     }

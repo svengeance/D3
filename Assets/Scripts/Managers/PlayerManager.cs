@@ -3,7 +3,7 @@ using UnityEngine;
 public class PlayerManager : MonoBehaviour
 {
     [field: SerializeField]
-    public ProjectileData SelectedProjectileData { get; private set; }
+    public ProjectileController SelectedProjectileData { get; private set; }
 
     public static PlayerManager Instance { get; private set; }
 

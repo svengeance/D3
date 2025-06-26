@@ -124,7 +124,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 730b6c0b3f7d568498cba5835ad8d866, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Collider: {fileID: 769886275813931565}
+  <Collider>k__BackingField: {fileID: 769886275813931565}
 --- !u!212 &957868359844377893
 SpriteRenderer:
   m_ObjectHideFlags: 0

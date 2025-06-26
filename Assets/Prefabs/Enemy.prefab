@@ -62,7 +62,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05b46c4280d008e4cafde3fb542b226c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemy: {fileID: 7823205900920248483}
+  <Enemy>k__BackingField: {fileID: 7823205900920248483}
+  <RigidBody>k__BackingField: {fileID: 5879468417146155605}
 --- !u!50 &5879468417146155605
 Rigidbody2D:
   serializedVersion: 5

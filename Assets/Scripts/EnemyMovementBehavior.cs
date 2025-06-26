@@ -4,22 +4,20 @@ using Random = UnityEngine.Random;
 
 public class EnemyMovementBehavior : MonoBehaviour
 {
-    [SerializeField]
-    private EnemyController _enemy;
+    [field: SerializeField]
+    private EnemyController Enemy { get; set; }
 
-    private float _currentSpeedMultiplier = 1f;
+    [field: SerializeField]
+    private Rigidbody2D RigidBody { get; set; }
 
-    private Vector2 _lastMovementDirection = Vector2.left;
+    private Vector2 LastMovementDirection { get; set; } = Vector2.left;
 
-    private Rigidbody2D _rb;
+    private float CurrentSpeedMultiplier { get; set; } = 1f;
 
-    private float _verticalBufferAroundPlayer;
+    private float VerticalBufferAroundPlayer { get; set; }
 
     private void Awake()
-    {
-        _rb = GetComponent<Rigidbody2D>();
-        _verticalBufferAroundPlayer = Random.Range(0.3f, 1f);
-    }
+        => VerticalBufferAroundPlayer = Random.Range(0.3f, 1f);
 
     private void FixedUpdate()
     {
@@ -27,7 +25,7 @@ public class EnemyMovementBehavior : MonoBehaviour
 
         FacePlayerToMovement(movement);
 
-        _rb.linearVelocity = movement;
+        RigidBody.linearVelocity = movement;
     }
 
     private Vector2 CalculateMovement()
@@ -39,7 +37,7 @@ public class EnemyMovementBehavior : MonoBehaviour
         var desiredMovement = (moveLeft + playerAvoidance + enemyAvoidance * 1).normalized;
 
         // How much did the movement direction change compared to last frame?
-        var deltaTurnAngle = Vector2.Angle(_lastMovementDirection, desiredMovement) / 90f;
+        var deltaTurnAngle = Vector2.Angle(LastMovementDirection, desiredMovement) / 90f;
 
         // Amplify mid-to-low turns stronger
         var curveMultiplier = 20f;
@@ -47,23 +45,23 @@ public class EnemyMovementBehavior : MonoBehaviour
         var targetSpeedMultiplier = Mathf.Lerp(1f, 0.10f, exaggeratedTurn);
         var inertiaSpeed = 8f;
 
-        _currentSpeedMultiplier = Mathf.Lerp(_currentSpeedMultiplier, targetSpeedMultiplier, Time.fixedDeltaTime * inertiaSpeed);
-        _lastMovementDirection = desiredMovement; // Update for next frame
+        CurrentSpeedMultiplier = Mathf.Lerp(CurrentSpeedMultiplier, targetSpeedMultiplier, Time.fixedDeltaTime * inertiaSpeed);
+        LastMovementDirection = desiredMovement; // Update for next frame
 
-        return desiredMovement * _currentSpeedMultiplier;
+        return desiredMovement * CurrentSpeedMultiplier;
     }
 
     private Vector2 CalculateMovementAroundPlayer()
     {
-        var playerBounds = _enemy.Player.Collider.bounds;
+        var playerBounds = Enemy.Player.Collider.bounds;
         var horizontalStartBuffer = 1.5f; // Horizontal range to start avoidance
 
-        var distanceFromPlayerX = Mathf.Max(0f, _rb.position.x - playerBounds.max.x);
+        var distanceFromPlayerX = Mathf.Max(0f, RigidBody.position.x - playerBounds.max.x);
         if (distanceFromPlayerX > horizontalStartBuffer)
             return Vector2.zero; // Too far right, no vertical movement yet
 
         // Vertical avoidance strength
-        var verticalDistanceToEdge = Mathf.Max(0f, Mathf.Abs(_rb.position.y - playerBounds.center.y) - playerBounds.extents.y) / _verticalBufferAroundPlayer;
+        var verticalDistanceToEdge = Mathf.Max(0f, Mathf.Abs(RigidBody.position.y - playerBounds.center.y) - playerBounds.extents.y) / VerticalBufferAroundPlayer;
         var verticalFalloff = 1f - Mathf.Clamp01(verticalDistanceToEdge);
         verticalFalloff = Mathf.SmoothStep(0f, 1f, verticalFalloff);
 
@@ -78,7 +76,7 @@ public class EnemyMovementBehavior : MonoBehaviour
             return Vector2.zero;
 
         // Choose avoidance direction
-        var yOffset = _rb.position.y - playerBounds.center.y;
+        var yOffset = RigidBody.position.y - playerBounds.center.y;
         var verticalAvoidance = Vector2.up * Mathf.Sign(yOffset);
 
         return verticalAvoidance * (6.0f * finalFalloff);
@@ -88,17 +86,17 @@ public class EnemyMovementBehavior : MonoBehaviour
     {
         var separationRadius = 1.0f; // Radius to check for other enemies
         var neighbors = new List<Collider2D>();
-        Physics2D.OverlapCircle(_rb.position, separationRadius, new ContactFilter2D(), neighbors);
+        Physics2D.OverlapCircle(RigidBody.position, separationRadius, new ContactFilter2D(), neighbors);
 
         var separationForce = Vector2.zero;
 
         foreach (var neighbor in neighbors)
         {
-            if (neighbor.attachedRigidbody == _rb)
+            if (neighbor.attachedRigidbody == RigidBody)
                 continue; // skip self
 
-            var away = (_rb.position - (Vector2)neighbor.transform.position).normalized;
-            var distance = Vector2.Distance(_rb.position, neighbor.transform.position);
+            var away = (RigidBody.position - (Vector2)neighbor.transform.position).normalized;
+            var distance = Vector2.Distance(RigidBody.position, neighbor.transform.position);
             var strength = Mathf.Clamp01(1f - distance / separationRadius);
 
             separationForce += away * strength;
@@ -112,6 +110,6 @@ public class EnemyMovementBehavior : MonoBehaviour
         if (Mathf.Approximately(movement.sqrMagnitude, 0f))
             return;
 
-        _rb.rotation = Mathf.Atan2(movement.y, movement.x) * Mathf.Rad2Deg + 180f;
+        RigidBody.rotation = Mathf.Atan2(movement.y, movement.x) * Mathf.Rad2Deg + 180f;
     }
 }

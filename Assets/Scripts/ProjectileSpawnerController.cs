@@ -2,13 +2,12 @@ using UnityEngine;
 
 public class ProjectileSpawnerController : MonoBehaviour
 {
-    [field: SerializeField]
-    public ProjectileController Projectile { get; private set; }
-
-    public ProjectileController SpawnProjectile(ProjectileData data, Vector2 position)
+    public ProjectileController SpawnProjectile(ProjectileController projectile, Vector2 position, Vector2 launchForce)
     {
-        var projectile = Instantiate(Projectile, position, Quaternion.identity);
-        projectile.Initialize(data);
+        var projectileObj = Instantiate(projectile, position, Quaternion.identity);
+        projectileObj.Initialize();
+
+        projectileObj.MovementBehavior.ApplyForce(launchForce);
 
         return projectile;
     }

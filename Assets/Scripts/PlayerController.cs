@@ -2,5 +2,6 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public Collider2D Collider;
+    [field: SerializeField]
+    public Collider2D Collider { get; private set; }
 }

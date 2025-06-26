@@ -47,8 +47,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <MaxDragDistance>k__BackingField: 2
   <MinDragDistance>k__BackingField: 0.5
-  <StartColor>k__BackingField: {r: 1, g: 0.079760365, b: 0.07075471, a: 0}
-  <EndColor>k__BackingField: {r: 0.8113208, g: 0.39417946, b: 0.39417946, a: 0.5529412}
+  <ForceMultiplier>k__BackingField: 25
+  <StartColor>k__BackingField: {r: 1, g: 0.27094662, b: 0.07058823, a: 0.45490196}
+  <EndColor>k__BackingField: {r: 1, g: 0.060963117, b: 0, a: 0.7294118}
+  <LineRenderer>k__BackingField: {fileID: 3720701040893378633}
 --- !u!120 &3720701040893378633
 LineRenderer:
   serializedVersion: 2
@@ -155,7 +157,7 @@ LineRenderer:
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
     numCornerVertices: 1
-    numCapVertices: 2
+    numCapVertices: 5
     alignment: 0
     textureMode: 0
     textureScale: {x: 1, y: 1}

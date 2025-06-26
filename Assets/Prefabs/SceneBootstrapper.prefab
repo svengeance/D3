@@ -44,5 +44,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b25613293b6de8c4cab1ed7b8a31af36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <InputManager>k__BackingField: {fileID: 0}
-  <PlayerManager>k__BackingField: {fileID: 0}
+  <InputManager>k__BackingField: {fileID: 4032606701171162993, guid: 695dd720fdf7e374d8603b4654a1b83c, type: 3}
+  <PlayerManager>k__BackingField: {fileID: 5327593549591038767, guid: d47535c8640ad1f45a38351f09ffe48a, type: 3}

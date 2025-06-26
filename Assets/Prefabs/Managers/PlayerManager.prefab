@@ -44,3 +44,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32e4d57c59146864b8d688e29e4c02ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <SelectedProjectileData>k__BackingField: {fileID: 3457455928455242944, guid: 75920f5be5636b44a86a14ef85109ddb, type: 3}

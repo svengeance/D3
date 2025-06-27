@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1149513373287975258}
   - component: {fileID: 4279236175141239808}
   - component: {fileID: 7586866829794167693}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: BasicProjectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -122,7 +122,7 @@ GameObject:
   - component: {fileID: 5128660738781379351}
   - component: {fileID: 7525316812192654049}
   - component: {fileID: 3982390488107178032}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: ProjectileBehaviors
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -196,7 +196,7 @@ GameObject:
   - component: {fileID: 8959264860815287339}
   - component: {fileID: 7281486688010260008}
   - component: {fileID: 944431221060467802}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Visuals
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -261,8 +261,8 @@ TrailRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 209421961
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Time: 1
   m_PreviewTimeScale: 1
@@ -361,7 +361,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6423173407083904157}
   - component: {fileID: 4472684433232088965}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -424,8 +424,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 209421961
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: -6565807328943366970, guid: 9c9f6123eb4ce8743996836f18e58c4e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -448,7 +448,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5183014978937686824}
   - component: {fileID: 4034662567152768017}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Hitbox
   m_TagString: Untagged
   m_Icon: {fileID: 0}

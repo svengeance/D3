@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7135516054260422880}
   - component: {fileID: 881015182651013095}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: ProjectileSpawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44,4 +44,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0abf5aa2caf67e043927e47da472b11c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Projectile>k__BackingField: {fileID: 3457455928455242944, guid: 75920f5be5636b44a86a14ef85109ddb, type: 3}

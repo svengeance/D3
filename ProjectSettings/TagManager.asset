@@ -11,13 +11,13 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Player
+  - Enemy
+  - Projectile
+  - Terrain
+  - Trigger
+  - NoCollision
+  - Interactable
   - 
   - 
   - 
@@ -41,5 +41,27 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Background
+    uniqueID: 2166007845
+    locked: 0
+  - name: Terrain
+    uniqueID: 2217279133
+    locked: 0
+  - name: Characters
+    uniqueID: 209421961
+    locked: 0
+  - name: FX
+    uniqueID: 3169007655
+    locked: 0
+  - name: UI
+    uniqueID: 3974540799
+    locked: 0
   m_RenderingLayers:
   - Default
+  - Player
+  - Enemey
+  - Terrain
+  - FX
+  - UI
+  - LightOnly
+  - ShadowCasters

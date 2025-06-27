@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7823205900920248483}
   - component: {fileID: 2381667885379314634}
   - component: {fileID: 5879468417146155605}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -102,7 +102,7 @@ GameObject:
   - component: {fileID: 8964388399671232108}
   - component: {fileID: 3712167675425569294}
   - component: {fileID: 6283473055688155429}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Hitbox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -193,7 +193,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6686904424637673900}
   - component: {fileID: 3472269717492982804}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Visuals
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -256,8 +256,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 209421961
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 7266619220930077668, guid: 80da24585db26e9488b7dbf2de0f05d4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

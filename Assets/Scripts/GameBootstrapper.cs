@@ -18,7 +18,7 @@ public class GameBootstrapper : MonoBehaviour
     {
         if (FindAnyObjectByType<T>())
         {
-            Debug.LogWarning($"An instance of {typeof(T).Name} already exists in the scene. Destroying the new instance.");
+            Debug.LogWarning($"An instance of {typeof(T).Name} already exists in the scene.");
             return;
         }
 

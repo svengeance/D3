@@ -19,6 +19,7 @@ public class PlayerManager : MonoBehaviour
         }
 
         Instance = this;
+        Player = FindAnyObjectByType<PlayerController>();
 
         transform.SetParent(null);
         DontDestroyOnLoad(gameObject);

@@ -10,6 +10,9 @@ public class EnemyMovementBehavior : MonoBehaviour
     [field: SerializeField]
     private Rigidbody2D RigidBody { get; set; }
 
+    [field: SerializeField]
+    private LayerMask EnemyLayerMask { get; set; }
+
     private Vector2 LastMovementDirection { get; set; } = Vector2.left;
 
     private float CurrentSpeedMultiplier { get; set; } = 1f;
@@ -86,7 +89,7 @@ public class EnemyMovementBehavior : MonoBehaviour
     {
         var separationRadius = 1.0f; // Radius to check for other enemies
         var neighbors = new List<Collider2D>();
-        Physics2D.OverlapCircle(RigidBody.position, separationRadius, new ContactFilter2D(), neighbors);
+        Physics2D.OverlapCircle(RigidBody.position, separationRadius, new ContactFilter2D { useLayerMask = true, layerMask = EnemyLayerMask }, neighbors);
 
         var separationForce = Vector2.zero;
 

@@ -64,6 +64,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Enemy>k__BackingField: {fileID: 7823205900920248483}
   <RigidBody>k__BackingField: {fileID: 5879468417146155605}
+  <EnemyLayerMask>k__BackingField:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!50 &5879468417146155605
 Rigidbody2D:
   serializedVersion: 5

@@ -13,6 +13,8 @@ public class EnemyMovementBehavior : MonoBehaviour
     [field: SerializeField]
     private LayerMask EnemyLayerMask { get; set; }
 
+    private PlayerController Player { get; set; }
+
     private Vector2 LastMovementDirection { get; set; } = Vector2.left;
 
     private float CurrentSpeedMultiplier { get; set; } = 1f;
@@ -20,7 +22,10 @@ public class EnemyMovementBehavior : MonoBehaviour
     private float VerticalBufferAroundPlayer { get; set; }
 
     private void Awake()
-        => VerticalBufferAroundPlayer = Random.Range(0.3f, 1f);
+    {
+        VerticalBufferAroundPlayer = Random.Range(0.3f, 1f);
+        Player = PlayerManager.Instance.Player;
+    }
 
     private void FixedUpdate()
     {
@@ -56,7 +61,10 @@ public class EnemyMovementBehavior : MonoBehaviour
 
     private Vector2 CalculateMovementAroundPlayer()
     {
-        var playerBounds = Enemy.Player.Collider.bounds;
+        if (Player is null)
+            return Vector2.zero; // No player reference, no avoidance
+
+        var playerBounds = Player.Collider.bounds;
         var horizontalStartBuffer = 1.5f; // Horizontal range to start avoidance
 
         var distanceFromPlayerX = Mathf.Max(0f, RigidBody.position.x - playerBounds.max.x);

@@ -19,7 +19,6 @@ public class EnemySpawnerController : MonoBehaviour
         var randomY = Random.Range(-3f, 3f);
         var spawnPosition = new Vector2(transform.position.x, transform.position.y + randomY);
 
-        var newEnemy = Instantiate(_enemy, spawnPosition, Quaternion.identity);
-        newEnemy.Initialize(_player);
+        _ = Instantiate(_enemy, spawnPosition, Quaternion.identity);
     }
 }

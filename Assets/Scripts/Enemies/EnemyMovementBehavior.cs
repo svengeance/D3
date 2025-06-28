@@ -22,10 +22,10 @@ public class EnemyMovementBehavior : MonoBehaviour
     private float VerticalBufferAroundPlayer { get; set; }
 
     private void Awake()
-    {
-        VerticalBufferAroundPlayer = Random.Range(0.3f, 1f);
-        Player = PlayerManager.Instance.Player;
-    }
+        => VerticalBufferAroundPlayer = Random.Range(0.3f, 1f);
+
+    private void Start()
+        => Player = PlayerManager.Instance.Player;
 
     private void FixedUpdate()
     {

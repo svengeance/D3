@@ -8,5 +8,9 @@ public class ProjectileController : MonoBehaviour
     [field: SerializeField]
     public ProjectileMovementBehavior MovementBehavior { get; private set; }
 
-    public void Initialize() { }
+    public void Initialize()
+    {
+        foreach (var behavior in ProjectileData.ProjectileBehaviors)
+            ((IProjectileBehavior)behavior).OnSpawn(this);
+    }
 }

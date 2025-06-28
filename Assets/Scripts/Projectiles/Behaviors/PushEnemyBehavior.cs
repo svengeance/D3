@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PushEnemyBehavior : MonoBehaviour, IProjectileOnCollideBehavior
+public class PushEnemyBehavior : MonoBehaviour, IProjectileBehavior
 {
     [field: SerializeField]
     public float ForceMultiplier { get; private set; } = 1f;

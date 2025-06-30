@@ -48,8 +48,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb22719d0862b3247b94f4545aa8d9cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemyData: {fileID: 0}
-  <Player>k__BackingField: {fileID: 0}
+  <EnemyData>k__BackingField: {fileID: 0}
+  <MovementBehavior>k__BackingField: {fileID: 0}
 --- !u!114 &2381667885379314634
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62,7 +62,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05b46c4280d008e4cafde3fb542b226c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Enemy>k__BackingField: {fileID: 7823205900920248483}
   <RigidBody>k__BackingField: {fileID: 5879468417146155605}
   <EnemyLayerMask>k__BackingField:
     serializedVersion: 2
@@ -90,7 +89,7 @@ Rigidbody2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0

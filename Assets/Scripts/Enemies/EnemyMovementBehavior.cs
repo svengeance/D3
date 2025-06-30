@@ -5,10 +5,7 @@ using Random = UnityEngine.Random;
 public class EnemyMovementBehavior : MonoBehaviour
 {
     [field: SerializeField]
-    private EnemyController Enemy { get; set; }
-
-    [field: SerializeField]
-    private Rigidbody2D RigidBody { get; set; }
+    public Rigidbody2D RigidBody { get; private set; }
 
     [field: SerializeField]
     private LayerMask EnemyLayerMask { get; set; }
@@ -17,15 +14,24 @@ public class EnemyMovementBehavior : MonoBehaviour
 
     private Vector2 LastMovementDirection { get; set; } = Vector2.left;
 
-    private float CurrentSpeedMultiplier { get; set; } = 1f;
+    private float TurnSpeedPenaltyMultiplier { get; set; } = 1f;
 
     private float VerticalBufferAroundPlayer { get; set; }
+
+    private Vector2 ExternalForce { get; set; } = Vector2.zero;
+
+    private float ExternalForceDecayRate { get; } = 2.5f;
 
     private void Awake()
         => VerticalBufferAroundPlayer = Random.Range(0.3f, 1f);
 
     private void Start()
-        => Player = PlayerManager.Instance.Player;
+    {
+        Player = PlayerManager.Instance.Player;
+
+        var thisController = GetComponent<EnemyController>();
+        thisController.OnCollide.AddListener(OnCollide);
+    }
 
     private void FixedUpdate()
     {
@@ -41,22 +47,12 @@ public class EnemyMovementBehavior : MonoBehaviour
         var moveLeft = Vector2.left;
         var playerAvoidance = CalculateMovementAroundPlayer();
         var enemyAvoidance = CalculateEnemyMovementAroundEachOther();
+        var externalForce = CalculateExternalForce();
 
-        var desiredMovement = (moveLeft + playerAvoidance + enemyAvoidance * 1).normalized;
+        LastMovementDirection = (moveLeft + playerAvoidance + enemyAvoidance * 1).normalized;
+        TurnSpeedPenaltyMultiplier = CalculateTurnSpeedMultiplier(LastMovementDirection);
 
-        // How much did the movement direction change compared to last frame?
-        var deltaTurnAngle = Vector2.Angle(LastMovementDirection, desiredMovement) / 90f;
-
-        // Amplify mid-to-low turns stronger
-        var curveMultiplier = 20f;
-        var exaggeratedTurn = Mathf.SmoothStep(0f, 1f, deltaTurnAngle * curveMultiplier);
-        var targetSpeedMultiplier = Mathf.Lerp(1f, 0.10f, exaggeratedTurn);
-        var inertiaSpeed = 8f;
-
-        CurrentSpeedMultiplier = Mathf.Lerp(CurrentSpeedMultiplier, targetSpeedMultiplier, Time.fixedDeltaTime * inertiaSpeed);
-        LastMovementDirection = desiredMovement; // Update for next frame
-
-        return desiredMovement * CurrentSpeedMultiplier;
+        return LastMovementDirection * TurnSpeedPenaltyMultiplier * externalForce;
     }
 
     private Vector2 CalculateMovementAroundPlayer()
@@ -115,6 +111,28 @@ public class EnemyMovementBehavior : MonoBehaviour
 
         return separationForce;
     }
+
+    private Vector2 CalculateExternalForce()
+    {
+        ExternalForce = Vector2.Lerp(ExternalForce, Vector2.zero, Time.fixedDeltaTime * ExternalForceDecayRate);
+
+        return ExternalForce;
+    }
+
+    private float CalculateTurnSpeedMultiplier(Vector2 movement)
+    {
+        // How much did the movement direction change compared to last frame?
+        var deltaTurnAngle = Vector2.Angle(LastMovementDirection, movement) / 90f;
+        var curveMultiplier = 20f;
+        var exaggeratedTurn = Mathf.SmoothStep(0f, 1f, deltaTurnAngle * curveMultiplier);
+        var targetSpeedMultiplier = Mathf.Lerp(1f, 0.10f, exaggeratedTurn);
+        var inertiaSpeed = 8f;
+
+        return Mathf.Lerp(TurnSpeedPenaltyMultiplier, targetSpeedMultiplier, Time.fixedDeltaTime * inertiaSpeed);
+    }
+
+    private void OnCollide(Vector2 force)
+        => ExternalForce += force;
 
     private void FacePlayerToMovement(Vector2 movement)
     {

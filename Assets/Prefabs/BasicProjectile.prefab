@@ -52,6 +52,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <ProjectileData>k__BackingField: {fileID: 1149513373287975258}
   <MovementBehavior>k__BackingField: {fileID: 7586866829794167693}
+  <HitboxBehavior>k__BackingField: {fileID: 0}
 --- !u!114 &1149513373287975258
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -448,6 +449,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5183014978937686824}
   - component: {fileID: 4034662567152768017}
+  - component: {fileID: 6308489961840898991}
   m_Layer: 8
   m_Name: Hitbox
   m_TagString: Untagged
@@ -506,3 +508,15 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.75
+--- !u!114 &6308489961840898991
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8362015046063517828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8db8f587d611f794ca47bf6ac3b21475, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

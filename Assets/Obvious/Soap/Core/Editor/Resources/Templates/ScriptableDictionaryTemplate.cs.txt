@@ -1,9 +1,0 @@
-﻿using System;
-using UnityEngine;
-using Obvious.Soap;
-
-[CreateAssetMenu(fileName = nameof($TYPE$), menuName = "Soap/ScriptableDictionary/"+nameof($TYPE$))]
-public class $TYPE$ : ScriptableDictionary<$KEY$,$VALUE$>
-{
-    
-}

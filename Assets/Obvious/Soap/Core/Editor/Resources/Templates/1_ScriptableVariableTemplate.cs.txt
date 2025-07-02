@@ -1,9 +1,0 @@
-﻿using UnityEngine;
-using Obvious.Soap;
-
-[CreateAssetMenu(fileName = "$TYPE$Variable", menuName = "Soap/ScriptableVariables/$TYPE$")]
-public class $TYPENAME$Variable : ScriptableVariable<$TYPE$>
-{
-    
-}
-

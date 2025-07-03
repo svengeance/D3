@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class BounceFromTargetBehavior : MonoBehaviour, IProjectileBehavior
+public class BounceFromTargetEffect : MonoBehaviour, IProjectileBehavior
 {
     [field: SerializeField]
     public float BounceMultiplier { get; private set; } = 1.0f;

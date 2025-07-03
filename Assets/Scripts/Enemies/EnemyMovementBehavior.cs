@@ -26,12 +26,7 @@ public class EnemyMovementBehavior : MonoBehaviour
         => VerticalBufferAroundPlayer = Random.Range(0.3f, 1f);
 
     private void Start()
-    {
-        Player = PlayerManager.Instance.Player;
-
-        var thisController = GetComponent<EnemyController>();
-        thisController.OnCollide.AddListener(OnCollide);
-    }
+        => Player = PlayerManager.Instance.Player;
 
     private void FixedUpdate()
     {
@@ -41,6 +36,9 @@ public class EnemyMovementBehavior : MonoBehaviour
 
         RigidBody.linearVelocity = movement;
     }
+
+    public void OnCollide(Vector2 force)
+        => ExternalForce += force;
 
     private Vector2 CalculateMovement()
     {
@@ -52,7 +50,7 @@ public class EnemyMovementBehavior : MonoBehaviour
         LastMovementDirection = (moveLeft + playerAvoidance + enemyAvoidance * 1).normalized;
         TurnSpeedPenaltyMultiplier = CalculateTurnSpeedMultiplier(LastMovementDirection);
 
-        return LastMovementDirection * TurnSpeedPenaltyMultiplier * externalForce;
+        return LastMovementDirection * TurnSpeedPenaltyMultiplier + externalForce;
     }
 
     private Vector2 CalculateMovementAroundPlayer()
@@ -114,9 +112,11 @@ public class EnemyMovementBehavior : MonoBehaviour
 
     private Vector2 CalculateExternalForce()
     {
+        var result = ExternalForce; // Use full force this frame
+
         ExternalForce = Vector2.Lerp(ExternalForce, Vector2.zero, Time.fixedDeltaTime * ExternalForceDecayRate);
 
-        return ExternalForce;
+        return result;
     }
 
     private float CalculateTurnSpeedMultiplier(Vector2 movement)
@@ -130,9 +130,6 @@ public class EnemyMovementBehavior : MonoBehaviour
 
         return Mathf.Lerp(TurnSpeedPenaltyMultiplier, targetSpeedMultiplier, Time.fixedDeltaTime * inertiaSpeed);
     }
-
-    private void OnCollide(Vector2 force)
-        => ExternalForce += force;
 
     private void FacePlayerToMovement(Vector2 movement)
     {

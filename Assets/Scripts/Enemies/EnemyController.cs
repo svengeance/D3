@@ -9,7 +9,10 @@ public class EnemyController : MonoBehaviour
     [field: SerializeField]
     private EnemyMovementBehavior MovementBehavior { get; set; }
 
-    public UnityEvent<Vector2> OnCollide { get; } = new();
+    public UnityEvent<Vector2> OnCollide { get; set; } = new();
+
+    private void Start()
+        => OnCollide.AddListener(MovementBehavior.OnCollide);
 
     public void Die()
         => Destroy(gameObject);

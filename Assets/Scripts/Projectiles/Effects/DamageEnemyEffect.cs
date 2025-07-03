@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class DamageEnemyBehavior : MonoBehaviour, IProjectileBehavior
+public class DamageEnemyEffect : MonoBehaviour, IProjectileBehavior
 {
     [field: SerializeField]
     public int Damage { get; private set; } = 10;

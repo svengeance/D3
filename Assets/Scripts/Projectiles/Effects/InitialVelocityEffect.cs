@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class InitialVelocityBehavior : MonoBehaviour, IProjectileBehavior
+public class InitialVelocityEffect : MonoBehaviour, IProjectileBehavior
 {
     [field: SerializeField]
     public Vector2 Velocity { get; private set; }

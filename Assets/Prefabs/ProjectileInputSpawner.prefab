@@ -63,7 +63,7 @@ GameObject:
   - component: {fileID: 8479504552623278022}
   - component: {fileID: 4193887538921642363}
   m_Layer: 11
-  m_Name: Hitbox
+  m_Name: InputSpawningBehavior
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

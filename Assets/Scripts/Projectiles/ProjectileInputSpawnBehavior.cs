@@ -52,9 +52,12 @@ public class ProjectileInputSpawnerHitboxBehavior : MonoBehaviour, IInteractable
         Collider.radius = InitialColliderRadius;
 
         var launchForce = DragIndicator.GetLaunchVector();
+        var launchPosition = DragIndicator.GetLaunchPosition();
+
         DragIndicator.EndDrag();
 
-        Controller.SpawnProjectile(pos, launchForce);
+        var spawnPosition = launchPosition.ClosestPointInCircle(Controller.transform.position, Collider.radius);
+        Controller.SpawnProjectile(spawnPosition, launchForce);
     }
 
     public void OnDrag(Vector2 pos)

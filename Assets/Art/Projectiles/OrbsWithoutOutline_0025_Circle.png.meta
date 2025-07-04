@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      OrbsWithoutOutline_0025_Circle_0: 5928516016581842443
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

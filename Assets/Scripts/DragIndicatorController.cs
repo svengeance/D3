@@ -3,13 +3,13 @@ using UnityEngine;
 public class DragIndicatorController : MonoBehaviour
 {
     [field: SerializeField]
-    public float MaxDragDistance { get; private set; } = 2f;
+    public float MaxDragDistance { get; private set; } = 4f;
 
     [field: SerializeField]
     public float MinDragDistance { get; private set; } = 0.5f;
 
     [field: SerializeField]
-    public float ForceMultiplier { get; private set; } = 5f;
+    public float ForceMultiplier { get; private set; } = 50f;
 
     [field: SerializeField]
     public Color StartColor { get; private set; }
@@ -34,7 +34,7 @@ public class DragIndicatorController : MonoBehaviour
         LaunchRenderer.positionCount = 2;
     }
 
-    public void StartDrag(Vector3 start)
+    public void StartDrag(Vector2 start)
     {
         LaunchRenderer.enabled = true;
         LaunchRenderer.startColor = StartColor;
@@ -44,9 +44,12 @@ public class DragIndicatorController : MonoBehaviour
         LaunchRenderer.SetPosition(1, start);
     }
 
-    public void Drag(Vector3 position)
+    public void Drag(Vector2 position)
     {
-        LaunchRenderer.SetPosition(1, position);
+        var start = (Vector2)LaunchRenderer.GetPosition(0);
+        var offset = position - start;
+        var clampedOffset = Vector2.ClampMagnitude(offset, MaxDragDistance);
+        LaunchRenderer.SetPosition(1, start + clampedOffset);
 
         SyncGuideline();
     }
@@ -54,8 +57,8 @@ public class DragIndicatorController : MonoBehaviour
     public void EndDrag()
     {
         LaunchRenderer.enabled = false;
-        LaunchRenderer.SetPosition(0, Vector3.zero);
-        LaunchRenderer.SetPosition(1, Vector3.zero);
+        LaunchRenderer.SetPosition(0, Vector2.zero);
+        LaunchRenderer.SetPosition(1, Vector2.zero);
 
         SyncGuideline();
     }
@@ -70,6 +73,9 @@ public class DragIndicatorController : MonoBehaviour
 
         return direction * (distance * ForceMultiplier);
     }
+
+    public Vector2 GetLaunchPosition()
+        => LaunchRenderer.GetPosition(1);
 
     private void SyncGuideline()
     {

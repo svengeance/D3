@@ -119,7 +119,7 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1001 &306083061
+--- !u!1001 &124243051
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -129,15 +129,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1937131969421899983, guid: 0e0c9a1d7ceb2724cb6af8c7618e6636, type: 3}
       propertyPath: m_Name
-      value: DragReleaseProjectileSpawner
+      value: ProjectileInputSpawner
       objectReference: {fileID: 0}
     - target: {fileID: 4199734656326295904, guid: 0e0c9a1d7ceb2724cb6af8c7618e6636, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.212885
+      value: -0.79124165
       objectReference: {fileID: 0}
     - target: {fileID: 4199734656326295904, guid: 0e0c9a1d7ceb2724cb6af8c7618e6636, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.16806723
+      value: 0.097182035
       objectReference: {fileID: 0}
     - target: {fileID: 4199734656326295904, guid: 0e0c9a1d7ceb2724cb6af8c7618e6636, type: 3}
       propertyPath: m_LocalPosition.z
@@ -287,7 +287,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1513481838374580285, guid: 8adc87feec217ca4f97b7140f079203b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.97600293
+      value: 1.976003
       objectReference: {fileID: 0}
     - target: {fileID: 1513481838374580285, guid: 8adc87feec217ca4f97b7140f079203b, type: 3}
       propertyPath: m_LocalPosition.y
@@ -482,5 +482,5 @@ SceneRoots:
   - {fileID: 1792578812}
   - {fileID: 316888482}
   - {fileID: 938949229}
-  - {fileID: 306083061}
   - {fileID: 1267171377}
+  - {fileID: 124243051}

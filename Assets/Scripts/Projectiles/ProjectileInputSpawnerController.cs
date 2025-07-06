@@ -15,7 +15,7 @@ public class ProjectileInputSpawnerController : MonoBehaviour, IInteractable
     public float RotationSpeed { get; private set; }
 
     [field: SerializeField]
-    public float ForceMultiplier { get; private set; } = 50f;
+    public float ForceMultiplier { get; private set; } = 75f;
 
     [field: SerializeField]
     public ProjectileSpawnerController ProjectileSpawner { get; private set; }

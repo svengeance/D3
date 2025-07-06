@@ -59,8 +59,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77c7d840b5e44ab5b3a55596b621334b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <ForceMultiplier>k__BackingField: 2
-  <MaxPushForce>k__BackingField: 5
+  <ForceMultiplier>k__BackingField: 5
+  <MaxPushForce>k__BackingField: 10
 --- !u!114 &7712491954844331300
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -125,8 +125,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <MovementBehavior>k__BackingField: {fileID: 7586866829794167693}
-  <ProjectileTrail>k__BackingField: {fileID: 0}
-  <ProjectileSprite>k__BackingField: {fileID: 0}
   <ProjectileBehaviors>k__BackingField:
   - {fileID: 8541886165559774474}
   - {fileID: 872805553437580475}

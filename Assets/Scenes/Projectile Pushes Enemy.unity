@@ -131,6 +131,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ProjectileInputSpawner
       objectReference: {fileID: 0}
+    - target: {fileID: 3729453137967301120, guid: 0e0c9a1d7ceb2724cb6af8c7618e6636, type: 3}
+      propertyPath: <ForceMultiplier>k__BackingField
+      value: 75
+      objectReference: {fileID: 0}
     - target: {fileID: 4199734656326295904, guid: 0e0c9a1d7ceb2724cb6af8c7618e6636, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.79124165

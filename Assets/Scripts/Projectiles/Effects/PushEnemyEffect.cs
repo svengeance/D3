@@ -4,10 +4,10 @@ using UnityEngine;
 public class PushEnemyEffect : ProjectileBehavior
 {
     [field: SerializeField]
-    public float ForceMultiplier { get; private set; } = 2f;
+    public float ForceMultiplier { get; private set; } = 5f;
 
     [field: SerializeField]
-    public float MaxPushForce { get; private set; } = 5f;
+    public float MaxPushForce { get; private set; } = 10f;
 
     private HashSet<GameObject> EncounteredEnemies { get; } = new();
 

@@ -1,11 +1,13 @@
-using System;
 using UnityEngine;
 
-public class DamageEnemyEffect : MonoBehaviour, IProjectileBehavior
+public class DamageEnemyEffect : ProjectileBehavior
 {
     [field: SerializeField]
     public int Damage { get; private set; } = 10;
 
-    public void OnCollide(ProjectileController projectile, GameObject target)
-        => throw new NotImplementedException();
+    public override void OnCollide(ProjectileController projectile, GameObject target, Vector2 relativeVelocity)
+    {
+        if (target.TryGetComponent<EnemyController>(out var enemyController))
+            enemyController.OnTakeDamage.Invoke(Damage);
+    }
 }

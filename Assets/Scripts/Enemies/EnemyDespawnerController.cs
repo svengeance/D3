@@ -12,6 +12,6 @@ public class EnemyDespawnerController : MonoBehaviour
         if (!other.TryGetComponent<EnemyController>(out var enemy))
             return;
 
-        enemy.Die();
+        enemy.OnTakeDamage.Invoke(enemy.CurrentHealth);
     }
 }

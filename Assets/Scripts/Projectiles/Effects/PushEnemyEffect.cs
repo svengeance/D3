@@ -1,17 +1,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PushEnemyEffect : MonoBehaviour, IProjectileBehavior
+public class PushEnemyEffect : ProjectileBehavior
 {
     [field: SerializeField]
-    public float ForceMultiplier { get; private set; } = 1f;
+    public float ForceMultiplier { get; private set; } = 2f;
 
     [field: SerializeField]
     public float MaxPushForce { get; private set; } = 5f;
 
     private HashSet<GameObject> EncounteredEnemies { get; } = new();
 
-    public void OnCollide(ProjectileController projectile, GameObject target, Vector2 relativeVelocity)
+    public override void OnCollide(ProjectileController projectile, GameObject target, Vector2 relativeVelocity)
     {
         if (EncounteredEnemies.Contains(target))
             return;

@@ -3,8 +3,18 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Enemy", menuName = "Scriptable Objects/Enemy")]
 public class EnemyData : ScriptableObject
 {
-    public Sprite _sprite;
-    public int _health;
-    public int _damage;
-    public float _speed;
+    [field: SerializeField]
+    public Sprite Sprite { get; set; }
+
+    [field: SerializeField]
+    public int StartingHealth { get; set; }
+
+    [field: SerializeField]
+    public int Damage { get; set; }
+
+    [field: SerializeField]
+    public float Speed { get; set; }
+
+    [field: SerializeField]
+    public float Weight { get; set; }
 }

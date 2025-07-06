@@ -9,9 +9,6 @@ public class DragIndicatorController : MonoBehaviour
     public float MinDragDistance { get; private set; } = 0.5f;
 
     [field: SerializeField]
-    public float ForceMultiplier { get; private set; } = 50f;
-
-    [field: SerializeField]
     public Color StartColor { get; private set; }
 
     [field: SerializeField]
@@ -71,7 +68,7 @@ public class DragIndicatorController : MonoBehaviour
         var direction = (start - end).normalized;
         var distance = Vector2.Distance(end, start);
 
-        return direction * (distance * ForceMultiplier);
+        return direction * distance;
     }
 
     public Vector2 GetLaunchPosition()

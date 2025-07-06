@@ -129,7 +129,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1937131969421899983, guid: 0e0c9a1d7ceb2724cb6af8c7618e6636, type: 3}
       propertyPath: m_Name
-      value: ProjectileInputSpawner
+      value: DragReleaseProjectileSpawner
       objectReference: {fileID: 0}
     - target: {fileID: 4199734656326295904, guid: 0e0c9a1d7ceb2724cb6af8c7618e6636, type: 3}
       propertyPath: m_LocalPosition.x

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ProjectileInputSpawnerHitboxBehavior : MonoBehaviour, IInteractable
+public class DragReleaseInputSpawnerController : MonoBehaviour, IInteractable
 {
     [field: SerializeField]
     public ProjectileInputSpawnerController Controller { get; private set; }
@@ -16,6 +16,9 @@ public class ProjectileInputSpawnerHitboxBehavior : MonoBehaviour, IInteractable
 
     [field: SerializeField]
     public float RotationSpeed { get; private set; }
+
+    [field: SerializeField]
+    public float ForceMultiplier { get; private set; } = 50f;
 
     private bool BorderIndicatorRotating { get; set; }
 
@@ -57,7 +60,7 @@ public class ProjectileInputSpawnerHitboxBehavior : MonoBehaviour, IInteractable
         DragIndicator.EndDrag();
 
         var spawnPosition = launchPosition.ClosestPointInCircle(Controller.transform.position, Collider.radius);
-        Controller.SpawnProjectile(spawnPosition, launchForce);
+        Controller.SpawnProjectile(spawnPosition, launchForce * ForceMultiplier);
     }
 
     public void OnDrag(Vector2 pos)

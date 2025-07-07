@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PushEnemyEffect : ProjectileBehavior
@@ -9,24 +8,12 @@ public class PushEnemyEffect : ProjectileBehavior
     [field: SerializeField]
     public float MaxPushForce { get; private set; } = 10f;
 
-    private HashSet<GameObject> EncounteredEnemies { get; } = new();
-
-    public override void OnCollide(ProjectileController projectile, GameObject target, Vector2 relativeVelocity)
+    public override void OnEnemyCollide(ProjectileController projectile, EnemyController target, Vector2 relativeVelocity)
     {
-        if (EncounteredEnemies.Contains(target))
-            return;
+        var direction = (target.transform.position - projectile.transform.position).normalized;
+        var velocity = relativeVelocity.magnitude;
+        var pushForce = Mathf.Min(velocity * ForceMultiplier, MaxPushForce);
 
-        EncounteredEnemies.Clear();
-
-        if (target.TryGetComponent<EnemyController>(out var enemyController))
-        {
-            EncounteredEnemies.Add(target);
-
-            var direction = (enemyController.transform.position - projectile.transform.position).normalized;
-            var velocity = relativeVelocity.magnitude;
-            var pushForce = Mathf.Min(velocity * ForceMultiplier, MaxPushForce);
-
-            enemyController.OnCollide.Invoke(direction * pushForce);
-        }
+        target.OnCollide.Invoke(direction * pushForce);
     }
 }

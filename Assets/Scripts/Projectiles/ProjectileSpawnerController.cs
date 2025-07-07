@@ -6,7 +6,7 @@ public class ProjectileSpawnerController : MonoBehaviour
     {
         var projectileObj = Instantiate(projectile, position, Quaternion.identity);
 
-        projectileObj.MovementBehavior.ApplyForce(launchForce);
+        projectileObj.Movement.Rigidbody.AddForce(launchForce, ForceMode2D.Impulse);
 
         return projectile;
     }

@@ -133,7 +133,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3729453137967301120, guid: 0e0c9a1d7ceb2724cb6af8c7618e6636, type: 3}
       propertyPath: <ForceMultiplier>k__BackingField
-      value: 75
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4199734656326295904, guid: 0e0c9a1d7ceb2724cb6af8c7618e6636, type: 3}
       propertyPath: m_LocalPosition.x
@@ -335,6 +335,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5186336185756958939, guid: 8adc87feec217ca4f97b7140f079203b, type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5879468417146155605, guid: 8adc87feec217ca4f97b7140f079203b, type: 3}
+      propertyPath: m_BodyType
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

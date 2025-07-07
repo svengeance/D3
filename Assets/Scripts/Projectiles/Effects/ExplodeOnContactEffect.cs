@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ExplodeOnContactEffect : ProjectileBehavior
+public class ExplodeOnContactEffect : ProjectileEffect
 {
     [field: SerializeField]
     public float ForceMultiplier { get; private set; } = 1f;

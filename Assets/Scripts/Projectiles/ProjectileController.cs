@@ -4,35 +4,35 @@ using UnityEngine;
 public class ProjectileController : MonoBehaviour
 {
     [field: SerializeField]
-    public ProjectileMovementBehavior MovementBehavior { get; private set; }
+    public ProjectileMovementBehavior Movement { get; private set; }
 
     [field: SerializeField]
-    public ProjectileBehavior[] ProjectileBehaviors { get; private set; }
+    public ProjectileEffect[] Effects { get; private set; }
 
     private GameObject LastCollidedObject { get; set; }
 
     private void Start()
     {
-        foreach (var behavior in ProjectileBehaviors)
+        foreach (var behavior in Effects)
             behavior.OnSpawn(this);
     }
 
-    private void OnCollisionEnter2D(Collision2D other)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (LastCollidedObject == other.gameObject)
+        if (LastCollidedObject == collision.gameObject)
             return;
 
-        LastCollidedObject = other.gameObject;
+        LastCollidedObject = collision.gameObject;
 
-        Action<ProjectileBehavior> invokeEvent = other.gameObject.layer switch
+        Action<ProjectileEffect> invokeEvent = collision.gameObject.layer switch
         {
-            Layers.Terrain => b => b.OnWallCollide(this, other.gameObject, other.relativeVelocity),
-            Layers.Enemy => b => b.OnEnemyCollide(this, other.gameObject.GetComponent<EnemyController>(), other.relativeVelocity),
-            Layers.Projectile => b => b.OnProjectileCollide(this, other.gameObject.GetComponent<ProjectileController>(), other.relativeVelocity),
+            Layers.Terrain => b => b.OnWallCollide(this, collision.gameObject, collision),
+            Layers.Enemy => b => b.OnEnemyCollide(this, collision.gameObject.GetComponent<EnemyController>(), collision),
+            Layers.Projectile => b => b.OnProjectileCollide(this, collision.gameObject.GetComponent<ProjectileController>(), collision),
             _ => _ => { }
         };
 
-        foreach (var behavior in ProjectileBehaviors)
+        foreach (var behavior in Effects)
             invokeEvent(behavior);
     }
 }

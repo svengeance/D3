@@ -73,7 +73,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccbc56fea13c4619b154a4095096a56f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <BounceMultiplier>k__BackingField: 1
+  <BounceMultiplier>k__BackingField: 0.5
   <AngleVariance>k__BackingField: 0
 --- !u!1 &1816088044434391620
 GameObject:
@@ -124,8 +124,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc62bbabe3351ca4aaacbba6d94b8471, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <MovementBehavior>k__BackingField: {fileID: 7586866829794167693}
-  <ProjectileBehaviors>k__BackingField:
+  <Movement>k__BackingField: {fileID: 7586866829794167693}
+  <Effects>k__BackingField:
   - {fileID: 8541886165559774474}
   - {fileID: 872805553437580475}
   - {fileID: 7712491954844331300}
@@ -157,7 +157,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDamping: 0
-  m_AngularDamping: 0.05
+  m_AngularDamping: 0
   m_GravityScale: 0
   m_Material: {fileID: 6200000, guid: d92f1968e18ec7549a94759e8fb710a4, type: 2}
   m_IncludeLayers:

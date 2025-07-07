@@ -8,6 +8,8 @@ public class ProjectileMovementBehavior : MonoBehaviour
     [field: SerializeField]
     public Rigidbody2D Rigidbody { get; private set; }
 
-    public void ApplyForce(Vector2 force)
-        => Rigidbody.AddForce(force, ForceMode2D.Force);
+    public Vector2 VelocityLastFrame { get; private set; }
+
+    private void FixedUpdate()
+        => VelocityLastFrame = Rigidbody.linearVelocity;
 }

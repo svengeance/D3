@@ -358,9 +358,8 @@ MonoBehaviour:
   <HealthBar>k__BackingField: {fileID: 3054929112902355076}
   <TerrainDamagePerImpactSpeed>k__BackingField: 1
   <MinTerrainImpactSpeed>k__BackingField: 2
-  <ImpactAngularImpulseMultiplier>k__BackingField: 0.65
-  <MaxImpactAngularImpulse>k__BackingField: 5
-  <MaxImpactAngularVelocity>k__BackingField: 150
+  <ImpactSpinMultiplier>k__BackingField: 6
+  <MaxImpactSpin>k__BackingField: 45
 --- !u!114 &2381667885379314634
 MonoBehaviour:
   m_ObjectHideFlags: 0

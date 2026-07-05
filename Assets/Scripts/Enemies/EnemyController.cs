@@ -22,13 +22,10 @@ public class EnemyController : MonoBehaviour
     private float MinTerrainImpactSpeed { get; set; } = 2f;
 
     [field: SerializeField]
-    private float ImpactAngularImpulseMultiplier { get; set; } = 0.65f;
+    private float ImpactSpinMultiplier { get; set; } = 6f;
 
     [field: SerializeField]
-    private float MaxImpactAngularImpulse { get; set; } = 5f;
-
-    [field: SerializeField]
-    private float MaxImpactAngularVelocity { get; set; } = 65f;
+    private float MaxImpactSpin { get; set; } = 45f;
 
     public UnityEvent<float> OnTakeDamage { get; set; } = new();
 
@@ -44,8 +41,9 @@ public class EnemyController : MonoBehaviour
         OnTakeDamage.AddListener(Damage);
     }
 
-    // Applies a knockback impulse at a world contact point so the hit imparts
-    // physically-correct linear motion and spin via the physics engine.
+    // EnemyMovementBehavior overwrites linearVelocity and rotation every FixedUpdate, so
+    // physics impulses/torque get erased before they render. Route both the shove and the
+    // spin through its decaying offsets instead so they actually persist and ease out.
     public void ApplyImpact(Vector2 impulse, Vector2 worldPoint)
     {
         var rigidBody = MovementBehavior.RigidBody;
@@ -53,11 +51,8 @@ public class EnemyController : MonoBehaviour
         MovementBehavior.OnCollide(impulse / rigidBody.mass);
 
         var contactOffset = worldPoint - rigidBody.worldCenterOfMass;
-        var angularImpulse = Vector3.Cross(contactOffset, impulse).z * ImpactAngularImpulseMultiplier;
-        angularImpulse = Mathf.Clamp(angularImpulse, -MaxImpactAngularImpulse, MaxImpactAngularImpulse);
-
-        rigidBody.AddTorque(angularImpulse, ForceMode2D.Impulse);
-        rigidBody.angularVelocity = Mathf.Clamp(rigidBody.angularVelocity, -MaxImpactAngularVelocity, MaxImpactAngularVelocity);
+        var spin = (contactOffset.x * impulse.y - contactOffset.y * impulse.x) * ImpactSpinMultiplier;
+        MovementBehavior.ApplySpin(Mathf.Clamp(spin, -MaxImpactSpin, MaxImpactSpin));
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

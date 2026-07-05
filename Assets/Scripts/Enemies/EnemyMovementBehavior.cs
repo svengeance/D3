@@ -22,6 +22,10 @@ public class EnemyMovementBehavior : MonoBehaviour
 
     private float ExternalForceDecayRate { get; } = 2.5f;
 
+    private float SpinOffset { get; set; }
+
+    private float SpinDecayRate { get; } = 3f;
+
     private void Awake()
         => VerticalBufferAroundPlayer = Random.Range(0.3f, 1f);
 
@@ -39,6 +43,9 @@ public class EnemyMovementBehavior : MonoBehaviour
 
     public void OnCollide(Vector2 force)
         => ExternalForce += force;
+
+    public void ApplySpin(float degrees)
+        => SpinOffset += degrees;
 
     private Vector2 CalculateMovement()
     {
@@ -136,6 +143,7 @@ public class EnemyMovementBehavior : MonoBehaviour
         if (Mathf.Approximately(movement.sqrMagnitude, 0f))
             return;
 
-        RigidBody.rotation = Mathf.Atan2(movement.y, movement.x) * Mathf.Rad2Deg + 180f;
+        RigidBody.rotation = Mathf.Atan2(movement.y, movement.x) * Mathf.Rad2Deg + 180f + SpinOffset;
+        SpinOffset = Mathf.Lerp(SpinOffset, 0f, Time.fixedDeltaTime * SpinDecayRate);
     }
 }

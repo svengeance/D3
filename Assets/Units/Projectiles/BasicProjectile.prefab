@@ -62,7 +62,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <ForceMultiplier>k__BackingField: 2
-  <MaxPushForce>k__BackingField: 30
+  <MaxPushForce>k__BackingField: 6
   <GlancingHitMultiplier>k__BackingField: 0.25
 --- !u!114 &7712491954844331300
 MonoBehaviour:

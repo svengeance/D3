@@ -36,9 +36,10 @@ public class EnemyMovementBehavior : MonoBehaviour
     {
         var movement = CalculateMovement();
 
-        FacePlayerToMovement(movement);
+        FacePlayerToMovement(LastMovementDirection);
 
         RigidBody.linearVelocity = movement;
+        RigidBody.angularVelocity = 0f; // script owns rotation directly; clear real collision torque so it can't leak into interpolation
     }
 
     public void OnCollide(Vector2 force)

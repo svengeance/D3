@@ -8,6 +8,6 @@ public class ProjectileSpawnerController : MonoBehaviour
 
         projectileObj.Movement.Rigidbody.AddForce(launchForce, ForceMode2D.Impulse);
 
-        return projectile;
+        return projectileObj;
     }
 }

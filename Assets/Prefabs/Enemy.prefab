@@ -221,6 +221,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
+  m_UseReflectionProbes: 0
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
@@ -332,7 +333,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6686904424637673900}
@@ -355,6 +356,11 @@ MonoBehaviour:
   <MovementBehavior>k__BackingField: {fileID: 2381667885379314634}
   <SpriteRenderer>k__BackingField: {fileID: 3472269717492982804}
   <HealthBar>k__BackingField: {fileID: 3054929112902355076}
+  <TerrainDamagePerImpactSpeed>k__BackingField: 1
+  <MinTerrainImpactSpeed>k__BackingField: 2
+  <ImpactAngularImpulseMultiplier>k__BackingField: 0.65
+  <MaxImpactAngularImpulse>k__BackingField: 5
+  <MaxImpactAngularVelocity>k__BackingField: 150
 --- !u!114 &2381667885379314634
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -371,6 +377,15 @@ MonoBehaviour:
   <EnemyLayerMask>k__BackingField:
     serializedVersion: 2
     m_Bits: 128
+  <Goalpost>k__BackingField: {fileID: 0}
+  <MoveSpeed>k__BackingField: 0.95
+  <SteeringResponsiveness>k__BackingField: 3
+  <MaxLateralTractionImpulse>k__BackingField: 0.22
+  <TurnResponsiveness>k__BackingField: 1.9
+  <TurnDamping>k__BackingField: 0.032
+  <MaxTurnSpeed>k__BackingField: 24
+  <MaxTurnTorque>k__BackingField: 1.15
+  <FacingDeadZone>k__BackingField: 3
 --- !u!50 &5879468417146155605
 Rigidbody2D:
   serializedVersion: 5
@@ -383,7 +398,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 3.5
   m_LinearDamping: 0
   m_AngularDamping: 0
   m_GravityScale: 0
@@ -599,6 +614,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
 --- !u!212 &3472269717492982804
 SpriteRenderer:
+  serializedVersion: 3
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -617,6 +633,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -638,9 +656,11 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 209421961
   m_SortingLayer: 3
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_Sprite: {fileID: 7266619220930077668, guid: 80da24585db26e9488b7dbf2de0f05d4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -650,5 +670,5 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+  m_BlendShapeWeights: []

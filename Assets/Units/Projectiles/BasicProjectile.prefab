@@ -12,8 +12,10 @@ GameObject:
   - component: {fileID: 8541886165559774474}
   - component: {fileID: 872805553437580475}
   - component: {fileID: 7712491954844331300}
+  - component: {fileID: 1000000000000000001}
+  - component: {fileID: 1000000000000000002}
   m_Layer: 8
-  m_Name: Effects
+  m_Name: Behaviors
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -59,8 +61,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77c7d840b5e44ab5b3a55596b621334b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <ForceMultiplier>k__BackingField: 5
-  <MaxPushForce>k__BackingField: 10
+  <ForceMultiplier>k__BackingField: 0.75
+  <MaxPushForce>k__BackingField: 4.5
+  <GlancingHitMultiplier>k__BackingField: 0.25
 --- !u!114 &7712491954844331300
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -73,8 +76,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccbc56fea13c4619b154a4095096a56f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <BounceMultiplier>k__BackingField: 0.5
+  <BounceMultiplier>k__BackingField: 0.48
   <AngleVariance>k__BackingField: 0
+--- !u!114 &1000000000000000001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1622564244043689600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57f132e3c83ad274c9f0da0226ff940d, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+  <DecayRate>k__BackingField: 0.6
+  <MaxSpeed>k__BackingField: 40
+--- !u!114 &1000000000000000002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1622564244043689600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b102311f5991d0448d565f14938830b, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+  <MaxLifetimeMs>k__BackingField: 8000
+  <MaxBounces>k__BackingField: 0
+  <MinVelocity>k__BackingField: 1
+  <MaxVelocity>k__BackingField: 0
 --- !u!1 &1816088044434391620
 GameObject:
   m_ObjectHideFlags: 0
@@ -125,10 +158,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Movement>k__BackingField: {fileID: 7586866829794167693}
-  <Effects>k__BackingField:
+  <Behaviors>k__BackingField:
   - {fileID: 8541886165559774474}
   - {fileID: 872805553437580475}
   - {fileID: 7712491954844331300}
+  - {fileID: 1000000000000000001}
+  - {fileID: 1000000000000000002}
 --- !u!114 &7586866829794167693
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -155,7 +190,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 0.4
   m_LinearDamping: 0
   m_AngularDamping: 0
   m_GravityScale: 0
@@ -166,9 +201,9 @@ Rigidbody2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 64
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 0
 --- !u!58 &5466940245865304563
 CircleCollider2D:
@@ -242,7 +277,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!96 &7281486688010260008
 TrailRenderer:
-  serializedVersion: 3
+  serializedVersion: 4
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -261,6 +296,8 @@ TrailRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -282,9 +319,11 @@ TrailRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 209421961
   m_SortingLayer: 3
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_Time: 1
   m_PreviewTimeScale: 1
   m_Parameters:
@@ -352,7 +391,6 @@ TrailRenderer:
     shadowBias: 0.5
     generateLightingData: 0
   m_MinVertexDistance: 0.1
-  m_MaskInteraction: 0
   m_Autodestruct: 0
   m_Emitting: 1
   m_ApplyActiveColorSpace: 1
@@ -374,6 +412,7 @@ MonoBehaviour:
   <JitterSpeed>k__BackingField: 10
 --- !u!212 &2399115442685299334
 SpriteRenderer:
+  serializedVersion: 3
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -392,6 +431,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -413,9 +454,11 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 209421961
   m_SortingLayer: 3
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_Sprite: {fileID: -6565807328943366970, guid: 9c9f6123eb4ce8743996836f18e58c4e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -425,5 +468,5 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+  m_BlendShapeWeights: []

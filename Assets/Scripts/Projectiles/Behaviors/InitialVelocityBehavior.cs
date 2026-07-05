@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class InitialVelocityEffect : ProjectileEffect
+public class InitialVelocityBehavior : ProjectileBehavior
 {
     [field: SerializeField]
     public Vector2 Velocity { get; private set; }

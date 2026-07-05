@@ -33,6 +33,9 @@ public class InputManager : MonoBehaviour
 
     private void Update()
     {
+        if (_d3Input == null)
+            return;
+
         var pointer = GetWorldPoint(_d3Input.Gameplay.Pointer.ReadValue<Vector2>());
         var target = RaycastToInteractable(pointer);
 
@@ -100,14 +103,24 @@ public class InputManager : MonoBehaviour
     }
 
     private Vector2 GetWorldPoint(Vector2 screenPoint)
-        => _mainCamera.ScreenToWorldPoint(screenPoint);
+    {
+        if (_mainCamera == null)
+            _mainCamera = Camera.main;
+
+        return _mainCamera != null
+            ? _mainCamera.ScreenToWorldPoint(screenPoint)
+            : Vector2.zero;
+    }
 
     [CanBeNull]
     private static IInteractable RaycastToInteractable(Vector2 worldPoint)
     {
-        var hitObject = Physics2D.OverlapPoint(worldPoint);
-        return hitObject?.TryGetComponent<IInteractable>(out var interactable) == true
-            ? interactable
-            : null;
+        foreach (var hitObject in Physics2D.OverlapPointAll(worldPoint))
+        {
+            if (hitObject.TryGetComponent<IInteractable>(out var interactable))
+                return interactable;
+        }
+
+        return null;
     }
 }

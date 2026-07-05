@@ -50,7 +50,7 @@ public class EnemyController : MonoBehaviour
     {
         var rigidBody = MovementBehavior.RigidBody;
 
-        rigidBody.AddForceAtPosition(impulse, worldPoint, ForceMode2D.Impulse);
+        MovementBehavior.OnCollide(impulse / rigidBody.mass);
 
         var contactOffset = worldPoint - rigidBody.worldCenterOfMass;
         var angularImpulse = Vector3.Cross(contactOffset, impulse).z * ImpactAngularImpulseMultiplier;

@@ -61,8 +61,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77c7d840b5e44ab5b3a55596b621334b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <ForceMultiplier>k__BackingField: 0.75
-  <MaxPushForce>k__BackingField: 4.5
+  <ForceMultiplier>k__BackingField: 2
+  <MaxPushForce>k__BackingField: 30
   <GlancingHitMultiplier>k__BackingField: 0.25
 --- !u!114 &7712491954844331300
 MonoBehaviour:
@@ -88,8 +88,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 57f132e3c83ad274c9f0da0226ff940d, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
+  m_Name: 
+  m_EditorClassIdentifier: 
   <DecayRate>k__BackingField: 0.6
   <MaxSpeed>k__BackingField: 40
 --- !u!114 &1000000000000000002
@@ -102,8 +102,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5b102311f5991d0448d565f14938830b, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
+  m_Name: 
+  m_EditorClassIdentifier: 
   <MaxLifetimeMs>k__BackingField: 8000
   <MaxBounces>k__BackingField: 0
   <MinVelocity>k__BackingField: 1
@@ -268,13 +268,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5104159212396448635}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: 0.9834351, z: -0, w: 0.1812609}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1446423659289085651}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 159.114, z: 0}
 --- !u!96 &7281486688010260008
 TrailRenderer:
   serializedVersion: 4

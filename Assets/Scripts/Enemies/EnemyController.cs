@@ -22,6 +22,12 @@ public class EnemyController : MonoBehaviour
     private float MinTerrainImpactSpeed { get; set; } = 2f;
 
     [field: SerializeField]
+    private float EnemyDamagePerMassImpactSpeed { get; set; } = 0.5f;
+
+    [field: SerializeField]
+    private float MinEnemyImpactSpeed { get; set; } = 3f;
+
+    [field: SerializeField]
     private float ImpactSpinMultiplier { get; set; } = 72f;
 
     [field: SerializeField]
@@ -85,14 +91,39 @@ public class EnemyController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.layer != Layers.Terrain)
-            return;
+        switch (collision.gameObject.layer)
+        {
+            case Layers.Terrain:
+                HandleTerrainCollision(collision);
+                return;
+            case Layers.Enemy:
+                HandleEnemyCollision(collision);
+                return;
+        }
+    }
 
+    private void HandleTerrainCollision(Collision2D collision)
+    {
         var impactSpeed = collision.relativeVelocity.magnitude;
         if (impactSpeed < MinTerrainImpactSpeed)
             return;
 
         OnTakeDamage.Invoke(impactSpeed * TerrainDamagePerImpactSpeed);
+    }
+
+    private void HandleEnemyCollision(Collision2D collision)
+    {
+        if (!collision.gameObject.TryGetComponent<EnemyController>(out var otherEnemy))
+            return;
+
+        var impactSpeed = collision.relativeVelocity.magnitude;
+        if (impactSpeed < MinEnemyImpactSpeed)
+            return;
+
+        if (collision.rigidbody == null)
+            return;
+
+        OnTakeDamage.Invoke(collision.rigidbody.mass * impactSpeed * EnemyDamagePerMassImpactSpeed);
     }
 
     private void Damage(float amount)

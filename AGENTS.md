@@ -14,3 +14,7 @@ IF a pattern is missing that would beenfit the project, inform the user and link
 
 Prefer the boring, direct solution. This project does not need enterprise
 patterns. If you're about to add an abstraction layer, ask first.
+
+## Agent Guidelines
+- When asked to update default values, ensure that you update the prefab and the backing C# default values
+- When asked to change values, default to changing the prefab values, NOT the values in a particular scene

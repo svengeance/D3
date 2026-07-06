@@ -10,6 +10,27 @@ public class EnemyMovementBehavior : MonoBehaviour
     [field: SerializeField]
     private LayerMask EnemyLayerMask { get; set; }
 
+    [field: SerializeField]
+    private float InternalDriveSpeed { get; set; } = 1f;
+
+    [field: SerializeField]
+    private float InternalAcceleration { get; set; } = 12f;
+
+    [field: SerializeField]
+    private float InternalTurnSpeed { get; set; } = 80f;
+
+    [field: SerializeField]
+    private float MinTurnDriveMultiplier { get; set; } = 0.8f;
+
+    [field: SerializeField]
+    private float ExternalForceDecayRate { get; set; } = 3f;
+
+    [field: SerializeField]
+    private float ExternalSpinDecayRate { get; set; } = 1.2f;
+
+    [field: SerializeField]
+    private float MaxExternalSpinSpeed { get; set; } = 1440f;
+
     private PlayerController Player { get; set; }
 
     private Vector2 LastMovementDirection { get; set; } = Vector2.left;
@@ -18,42 +39,51 @@ public class EnemyMovementBehavior : MonoBehaviour
 
     private float VerticalBufferAroundPlayer { get; set; }
 
-    private Vector2 ExternalForce { get; set; } = Vector2.zero;
+    private Vector2 ExternalVelocity { get; set; } = Vector2.zero;
 
-    private float ExternalForceDecayRate { get; } = 2.5f;
+    private float ExternalAngularVelocity { get; set; }
 
-    private float SpinOffset { get; set; }
-
-    private float SpinVelocity { get; set; }
-
-    private float SpinSmoothTime { get; } = 0.35f; // damped ease so knockback spin arcs back into place instead of snapping
+    private float InternalDriveVelocity { get; set; }
 
     private void Awake()
-        => VerticalBufferAroundPlayer = Random.Range(0.3f, 1f);
+    {
+        VerticalBufferAroundPlayer = Random.Range(0.3f, 1f);
+        LastMovementDirection = -transform.right;
+    }
 
     private void Start()
-        => Player = PlayerManager.Instance.Player;
+    {
+        Player = PlayerManager.Instance.Player;
+        InternalDriveVelocity = InternalDriveSpeed;
+    }
 
     private void FixedUpdate()
     {
         var steeringDirection = CalculateSteering();
-        var externalForce = CalculateExternalForce();
+        var externalVelocity = CalculateExternalVelocity();
+        var bodyRotation = RotateTowardSteering(steeringDirection);
+        var facingRadians = (bodyRotation - 180f) * Mathf.Deg2Rad;
+        var facingDirection = new Vector2(Mathf.Cos(facingRadians), Mathf.Sin(facingRadians));
 
-        // Drive velocity is locked to the tank's actual facing (steering + any unresolved spin),
-        // so a knockback that spins the nose off-course makes it drive an arc back on course
-        // instead of sliding there in a straight line. externalForce is added on top, unlocked
-        // from facing, so a side impact still shoves/slides the tank regardless of where it's pointed.
-        var facingDirection = FaceTowardSteering(steeringDirection);
+        RigidBody.rotation = bodyRotation;
+        var targetDriveVelocity = InternalDriveSpeed * TurnSpeedPenaltyMultiplier;
+        InternalDriveVelocity = Mathf.MoveTowards(
+            InternalDriveVelocity,
+            targetDriveVelocity,
+            InternalAcceleration * Time.fixedDeltaTime);
 
-        RigidBody.linearVelocity = facingDirection * TurnSpeedPenaltyMultiplier + externalForce;
-        RigidBody.angularVelocity = 0f; // script owns rotation directly; clear real collision torque so it can't leak into interpolation
+        RigidBody.linearVelocity = facingDirection * InternalDriveVelocity + externalVelocity;
+        RigidBody.angularVelocity = 0f;
     }
 
-    public void OnCollide(Vector2 force)
-        => ExternalForce += force;
+    public void ApplyExternalVelocity(Vector2 velocityDelta)
+        => ExternalVelocity += velocityDelta;
 
-    public void ApplySpin(float degrees)
-        => SpinOffset += degrees;
+    public void ApplyExternalSpin(float angularVelocityDelta)
+        => ExternalAngularVelocity = Mathf.Clamp(
+            ExternalAngularVelocity + angularVelocityDelta,
+            -MaxExternalSpinSpeed,
+            MaxExternalSpinSpeed);
 
     private Vector2 CalculateSteering()
     {
@@ -61,58 +91,53 @@ public class EnemyMovementBehavior : MonoBehaviour
         var playerAvoidance = CalculateMovementAroundPlayer();
         var enemyAvoidance = CalculateEnemyMovementAroundEachOther();
 
-        LastMovementDirection = (moveLeft + playerAvoidance + enemyAvoidance * 1).normalized;
-        TurnSpeedPenaltyMultiplier = CalculateTurnSpeedMultiplier(LastMovementDirection);
-
-        return LastMovementDirection;
+        return (moveLeft + playerAvoidance + enemyAvoidance).normalized;
     }
 
     private Vector2 CalculateMovementAroundPlayer()
     {
         if (Player is null)
-            return Vector2.zero; // No player reference, no avoidance
+            return Vector2.zero;
 
         var playerBounds = Player.Collider.bounds;
-        var horizontalStartBuffer = 1.5f; // Horizontal range to start avoidance
+        var horizontalStartBuffer = 1.5f;
 
         var distanceFromPlayerX = Mathf.Max(0f, RigidBody.position.x - playerBounds.max.x);
         if (distanceFromPlayerX > horizontalStartBuffer)
-            return Vector2.zero; // Too far right, no vertical movement yet
+            return Vector2.zero;
 
-        // Vertical avoidance strength
         var verticalDistanceToEdge = Mathf.Max(0f, Mathf.Abs(RigidBody.position.y - playerBounds.center.y) - playerBounds.extents.y) / VerticalBufferAroundPlayer;
         var verticalFalloff = 1f - Mathf.Clamp01(verticalDistanceToEdge);
         verticalFalloff = Mathf.SmoothStep(0f, 1f, verticalFalloff);
 
-        // Horizontal proximity strength
         var horizontalStrength = 1f - Mathf.Clamp01(distanceFromPlayerX / horizontalStartBuffer);
         horizontalStrength = Mathf.SmoothStep(0f, 1f, horizontalStrength);
 
-        // Final vertical avoidance strength
         var finalFalloff = verticalFalloff * horizontalStrength;
-
         if (finalFalloff <= 0.001f)
             return Vector2.zero;
 
-        // Choose avoidance direction
         var yOffset = RigidBody.position.y - playerBounds.center.y;
         var verticalAvoidance = Vector2.up * Mathf.Sign(yOffset);
-
         return verticalAvoidance * (6.0f * finalFalloff);
     }
 
     private Vector2 CalculateEnemyMovementAroundEachOther()
     {
-        var separationRadius = 1.0f; // Radius to check for other enemies
+        var separationRadius = 1.0f;
         var neighbors = new List<Collider2D>();
-        Physics2D.OverlapCircle(RigidBody.position, separationRadius, new ContactFilter2D { useLayerMask = true, layerMask = EnemyLayerMask }, neighbors);
+        Physics2D.OverlapCircle(
+            RigidBody.position,
+            separationRadius,
+            new ContactFilter2D { useLayerMask = true, layerMask = EnemyLayerMask },
+            neighbors);
 
         var separationForce = Vector2.zero;
 
         foreach (var neighbor in neighbors)
         {
             if (neighbor.attachedRigidbody == RigidBody)
-                continue; // skip self
+                continue;
 
             var away = (RigidBody.position - (Vector2)neighbor.transform.position).normalized;
             var distance = Vector2.Distance(RigidBody.position, neighbor.transform.position);
@@ -124,42 +149,42 @@ public class EnemyMovementBehavior : MonoBehaviour
         return separationForce;
     }
 
-    private Vector2 CalculateExternalForce()
+    private Vector2 CalculateExternalVelocity()
     {
-        var result = ExternalForce; // Use full force this frame
-
-        ExternalForce = Vector2.Lerp(ExternalForce, Vector2.zero, Time.fixedDeltaTime * ExternalForceDecayRate);
-
+        var result = ExternalVelocity;
+        ExternalVelocity = Vector2.Lerp(ExternalVelocity, Vector2.zero, Time.fixedDeltaTime * ExternalForceDecayRate);
         return result;
     }
 
-    private float CalculateTurnSpeedMultiplier(Vector2 movement)
+    private float RotateTowardSteering(Vector2 steeringDirection)
     {
-        // How much did the movement direction change compared to last frame?
-        var deltaTurnAngle = Vector2.Angle(LastMovementDirection, movement) / 90f;
-        var curveMultiplier = 20f;
+        if (Mathf.Approximately(steeringDirection.sqrMagnitude, 0f))
+            return RigidBody.rotation;
+
+        var targetMovementAngle = Mathf.Atan2(steeringDirection.y, steeringDirection.x) * Mathf.Rad2Deg;
+        var targetBodyAngle = targetMovementAngle + 180f;
+        var nextBodyAngle = Mathf.MoveTowardsAngle(
+            RigidBody.rotation,
+            targetBodyAngle,
+            InternalTurnSpeed * Time.fixedDeltaTime);
+
+        nextBodyAngle += ExternalAngularVelocity * Time.fixedDeltaTime;
+        ExternalAngularVelocity = Mathf.Lerp(ExternalAngularVelocity, 0f, Time.fixedDeltaTime * ExternalSpinDecayRate);
+
+        LastMovementDirection = steeringDirection;
+        TurnSpeedPenaltyMultiplier = CalculateTurnSpeedMultiplier(nextBodyAngle, targetBodyAngle);
+
+        return nextBodyAngle;
+    }
+
+    private float CalculateTurnSpeedMultiplier(float bodyAngle, float targetBodyAngle)
+    {
+        var deltaTurnAngle = Mathf.Abs(Mathf.DeltaAngle(bodyAngle, targetBodyAngle)) / 90f;
+        var curveMultiplier = 2f;
         var exaggeratedTurn = Mathf.SmoothStep(0f, 1f, deltaTurnAngle * curveMultiplier);
-        var targetSpeedMultiplier = Mathf.Lerp(1f, 0.10f, exaggeratedTurn);
+        var targetSpeedMultiplier = Mathf.Lerp(1f, MinTurnDriveMultiplier, exaggeratedTurn);
         var inertiaSpeed = 8f;
 
         return Mathf.Lerp(TurnSpeedPenaltyMultiplier, targetSpeedMultiplier, Time.fixedDeltaTime * inertiaSpeed);
-    }
-
-    private Vector2 FaceTowardSteering(Vector2 steeringDirection)
-    {
-        if (Mathf.Approximately(steeringDirection.sqrMagnitude, 0f))
-            return steeringDirection;
-
-        var targetAngle = Mathf.Atan2(steeringDirection.y, steeringDirection.x) * Mathf.Rad2Deg;
-        var facingAngle = targetAngle + SpinOffset;
-
-        RigidBody.rotation = facingAngle + 180f;
-
-        var spinVelocity = SpinVelocity;
-        SpinOffset = Mathf.SmoothDamp(SpinOffset, 0f, ref spinVelocity, SpinSmoothTime);
-        SpinVelocity = spinVelocity;
-
-        var facingRadians = facingAngle * Mathf.Deg2Rad;
-        return new Vector2(Mathf.Cos(facingRadians), Mathf.Sin(facingRadians));
     }
 }

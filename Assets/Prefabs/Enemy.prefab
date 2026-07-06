@@ -358,9 +358,9 @@ MonoBehaviour:
   <HealthBar>k__BackingField: {fileID: 3054929112902355076}
   <TerrainDamagePerImpactSpeed>k__BackingField: 1
   <MinTerrainImpactSpeed>k__BackingField: 2
-  <ImpactSpinMultiplier>k__BackingField: 6
-  <MaxImpactSpin>k__BackingField: 45
-  <MaxSpinImpulse>k__BackingField: 6
+  <ImpactSpinMultiplier>k__BackingField: 72
+  <MaxImpactSpin>k__BackingField: 1440
+  <MaxSpinImpulse>k__BackingField: 12
   <SpinCornerMultiplier>k__BackingField:
     serializedVersion: 2
     m_Curve:
@@ -419,6 +419,13 @@ MonoBehaviour:
   <EnemyLayerMask>k__BackingField:
     serializedVersion: 2
     m_Bits: 128
+  <InternalDriveSpeed>k__BackingField: 1
+  <InternalAcceleration>k__BackingField: 12
+  <InternalTurnSpeed>k__BackingField: 80
+  <MinTurnDriveMultiplier>k__BackingField: 0.8
+  <ExternalForceDecayRate>k__BackingField: 3
+  <ExternalSpinDecayRate>k__BackingField: 1.2
+  <MaxExternalSpinSpeed>k__BackingField: 1440
 --- !u!50 &5879468417146155605
 Rigidbody2D:
   serializedVersion: 5

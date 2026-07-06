@@ -22,13 +22,13 @@ public class EnemyController : MonoBehaviour
     private float MinTerrainImpactSpeed { get; set; } = 2f;
 
     [field: SerializeField]
-    private float ImpactSpinMultiplier { get; set; } = 6f;
+    private float ImpactSpinMultiplier { get; set; } = 72f;
 
     [field: SerializeField]
-    private float MaxImpactSpin { get; set; } = 45f;
+    private float MaxImpactSpin { get; set; } = 1440f;
 
     [field: SerializeField]
-    private float MaxSpinImpulse { get; set; } = 6f; // caps the impulse used for torque so tuning push force (knockback) doesn't also tune spin
+    private float MaxSpinImpulse { get; set; } = 12f; // caps the impulse used for torque so tuning push force (knockback) doesn't also tune spin
 
     // x = how close the hit is to a corner (0 = dead center of an edge, 1 = exact corner); y = spin multiplier at that point
     [field: SerializeField]
@@ -57,20 +57,20 @@ public class EnemyController : MonoBehaviour
         OnTakeDamage.AddListener(Damage);
     }
 
-    // EnemyMovementBehavior overwrites linearVelocity and rotation every FixedUpdate, so
-    // physics impulses/torque get erased before they render. Route both the shove and the
-    // spin through its decaying offsets instead so they actually persist and ease out.
+    // EnemyMovementBehavior splits goal-seeking drive from impact state, so impacts are
+    // fed in as external velocity/spin that decay over time instead of being overwritten
+    // by the tank AI on the next FixedUpdate.
     public void ApplyImpact(Vector2 impulse, Vector2 worldPoint)
     {
         var rigidBody = MovementBehavior.RigidBody;
 
-        MovementBehavior.OnCollide(impulse / rigidBody.mass);
+        MovementBehavior.ApplyExternalVelocity(impulse / rigidBody.mass);
 
         var contactOffset = worldPoint - rigidBody.worldCenterOfMass;
         var spinImpulse = Vector2.ClampMagnitude(impulse, MaxSpinImpulse);
         var cornerness = HitCornerness(contactOffset);
         var spin = (contactOffset.x * spinImpulse.y - contactOffset.y * spinImpulse.x) * ImpactSpinMultiplier * SpinCornerMultiplier.Evaluate(cornerness);
-        MovementBehavior.ApplySpin(Mathf.Clamp(spin, -MaxImpactSpin, MaxImpactSpin));
+        MovementBehavior.ApplyExternalSpin(Mathf.Clamp(spin, -MaxImpactSpin, MaxImpactSpin));
     }
 
     // 0 = hit landed at the center of an edge, 1 = hit landed on a corner. contactOffset is

@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -6,9 +5,6 @@ public class EnemyMovementBehavior : MonoBehaviour
 {
     [field: SerializeField]
     public Rigidbody2D RigidBody { get; private set; }
-
-    [field: SerializeField]
-    private LayerMask EnemyLayerMask { get; set; }
 
     [field: SerializeField]
     private float InternalDriveSpeed { get; set; } = 1f;
@@ -89,9 +85,8 @@ public class EnemyMovementBehavior : MonoBehaviour
     {
         var moveLeft = Vector2.left;
         var playerAvoidance = CalculateMovementAroundPlayer();
-        var enemyAvoidance = CalculateEnemyMovementAroundEachOther();
 
-        return (moveLeft + playerAvoidance + enemyAvoidance).normalized;
+        return (moveLeft + playerAvoidance).normalized;
     }
 
     private Vector2 CalculateMovementAroundPlayer()
@@ -120,33 +115,6 @@ public class EnemyMovementBehavior : MonoBehaviour
         var yOffset = RigidBody.position.y - playerBounds.center.y;
         var verticalAvoidance = Vector2.up * Mathf.Sign(yOffset);
         return verticalAvoidance * (6.0f * finalFalloff);
-    }
-
-    private Vector2 CalculateEnemyMovementAroundEachOther()
-    {
-        var separationRadius = 1.0f;
-        var neighbors = new List<Collider2D>();
-        Physics2D.OverlapCircle(
-            RigidBody.position,
-            separationRadius,
-            new ContactFilter2D { useLayerMask = true, layerMask = EnemyLayerMask },
-            neighbors);
-
-        var separationForce = Vector2.zero;
-
-        foreach (var neighbor in neighbors)
-        {
-            if (neighbor.attachedRigidbody == RigidBody)
-                continue;
-
-            var away = (RigidBody.position - (Vector2)neighbor.transform.position).normalized;
-            var distance = Vector2.Distance(RigidBody.position, neighbor.transform.position);
-            var strength = Mathf.Clamp01(1f - distance / separationRadius);
-
-            separationForce += away * strength;
-        }
-
-        return separationForce;
     }
 
     private Vector2 CalculateExternalVelocity(Vector2 facingDirection)

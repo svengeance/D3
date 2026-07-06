@@ -360,6 +360,49 @@ MonoBehaviour:
   <MinTerrainImpactSpeed>k__BackingField: 2
   <ImpactSpinMultiplier>k__BackingField: 6
   <MaxImpactSpin>k__BackingField: 45
+  <MaxSpinImpulse>k__BackingField: 6
+  <SpinCornerMultiplier>k__BackingField:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.5
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.2
+      value: 0.5
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.65
+      value: 0.85
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1.25
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!114 &2381667885379314634
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -376,15 +419,6 @@ MonoBehaviour:
   <EnemyLayerMask>k__BackingField:
     serializedVersion: 2
     m_Bits: 128
-  <Goalpost>k__BackingField: {fileID: 0}
-  <MoveSpeed>k__BackingField: 0.95
-  <SteeringResponsiveness>k__BackingField: 3
-  <MaxLateralTractionImpulse>k__BackingField: 0.22
-  <TurnResponsiveness>k__BackingField: 1.9
-  <TurnDamping>k__BackingField: 0.032
-  <MaxTurnSpeed>k__BackingField: 24
-  <MaxTurnTorque>k__BackingField: 1.15
-  <FacingDeadZone>k__BackingField: 3
 --- !u!50 &5879468417146155605
 Rigidbody2D:
   serializedVersion: 5

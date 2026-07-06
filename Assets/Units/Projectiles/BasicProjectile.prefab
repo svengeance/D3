@@ -61,8 +61,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77c7d840b5e44ab5b3a55596b621334b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <ForceMultiplier>k__BackingField: 2
-  <MaxPushForce>k__BackingField: 6
+  <ForceMultiplier>k__BackingField: 6
+  <MaxPushForce>k__BackingField: 30
   <GlancingHitMultiplier>k__BackingField: 0.25
 --- !u!114 &7712491954844331300
 MonoBehaviour:

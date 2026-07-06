@@ -24,7 +24,9 @@ public class EnemyMovementBehavior : MonoBehaviour
 
     private float SpinOffset { get; set; }
 
-    private float SpinDecayRate { get; } = 3f;
+    private float SpinVelocity { get; set; }
+
+    private float SpinSmoothTime { get; } = 0.35f; // damped ease so knockback spin arcs back into place instead of snapping
 
     private void Awake()
         => VerticalBufferAroundPlayer = Random.Range(0.3f, 1f);
@@ -34,11 +36,16 @@ public class EnemyMovementBehavior : MonoBehaviour
 
     private void FixedUpdate()
     {
-        var movement = CalculateMovement();
+        var steeringDirection = CalculateSteering();
+        var externalForce = CalculateExternalForce();
 
-        FacePlayerToMovement(LastMovementDirection);
+        // Drive velocity is locked to the tank's actual facing (steering + any unresolved spin),
+        // so a knockback that spins the nose off-course makes it drive an arc back on course
+        // instead of sliding there in a straight line. externalForce is added on top, unlocked
+        // from facing, so a side impact still shoves/slides the tank regardless of where it's pointed.
+        var facingDirection = FaceTowardSteering(steeringDirection);
 
-        RigidBody.linearVelocity = movement;
+        RigidBody.linearVelocity = facingDirection * TurnSpeedPenaltyMultiplier + externalForce;
         RigidBody.angularVelocity = 0f; // script owns rotation directly; clear real collision torque so it can't leak into interpolation
     }
 
@@ -48,17 +55,16 @@ public class EnemyMovementBehavior : MonoBehaviour
     public void ApplySpin(float degrees)
         => SpinOffset += degrees;
 
-    private Vector2 CalculateMovement()
+    private Vector2 CalculateSteering()
     {
         var moveLeft = Vector2.left;
         var playerAvoidance = CalculateMovementAroundPlayer();
         var enemyAvoidance = CalculateEnemyMovementAroundEachOther();
-        var externalForce = CalculateExternalForce();
 
         LastMovementDirection = (moveLeft + playerAvoidance + enemyAvoidance * 1).normalized;
         TurnSpeedPenaltyMultiplier = CalculateTurnSpeedMultiplier(LastMovementDirection);
 
-        return LastMovementDirection * TurnSpeedPenaltyMultiplier + externalForce;
+        return LastMovementDirection;
     }
 
     private Vector2 CalculateMovementAroundPlayer()
@@ -139,12 +145,21 @@ public class EnemyMovementBehavior : MonoBehaviour
         return Mathf.Lerp(TurnSpeedPenaltyMultiplier, targetSpeedMultiplier, Time.fixedDeltaTime * inertiaSpeed);
     }
 
-    private void FacePlayerToMovement(Vector2 movement)
+    private Vector2 FaceTowardSteering(Vector2 steeringDirection)
     {
-        if (Mathf.Approximately(movement.sqrMagnitude, 0f))
-            return;
+        if (Mathf.Approximately(steeringDirection.sqrMagnitude, 0f))
+            return steeringDirection;
 
-        RigidBody.rotation = Mathf.Atan2(movement.y, movement.x) * Mathf.Rad2Deg + 180f + SpinOffset;
-        SpinOffset = Mathf.Lerp(SpinOffset, 0f, Time.fixedDeltaTime * SpinDecayRate);
+        var targetAngle = Mathf.Atan2(steeringDirection.y, steeringDirection.x) * Mathf.Rad2Deg;
+        var facingAngle = targetAngle + SpinOffset;
+
+        RigidBody.rotation = facingAngle + 180f;
+
+        var spinVelocity = SpinVelocity;
+        SpinOffset = Mathf.SmoothDamp(SpinOffset, 0f, ref spinVelocity, SpinSmoothTime);
+        SpinVelocity = spinVelocity;
+
+        var facingRadians = facingAngle * Mathf.Deg2Rad;
+        return new Vector2(Mathf.Cos(facingRadians), Mathf.Sin(facingRadians));
     }
 }

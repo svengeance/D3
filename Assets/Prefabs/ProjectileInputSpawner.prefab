@@ -161,7 +161,7 @@ MonoBehaviour:
   <Collider>k__BackingField: {fileID: 1139168110248363843}
   <BorderIndicatorSegments>k__BackingField: 64
   <RotationSpeed>k__BackingField: 3
-  <ForceMultiplier>k__BackingField: 34
+  <ForceMultiplier>k__BackingField: 25
   <ProjectileSpawner>k__BackingField: {fileID: 8598145182216223133}
   <DragIndicator>k__BackingField: {fileID: 4807207918296739586}
 --- !u!58 &1139168110248363843

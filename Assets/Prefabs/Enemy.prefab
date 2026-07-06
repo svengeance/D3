@@ -424,6 +424,7 @@ MonoBehaviour:
   <InternalTurnSpeed>k__BackingField: 80
   <MinTurnDriveMultiplier>k__BackingField: 0.8
   <ExternalForceDecayRate>k__BackingField: 3
+  <ExternalVelocityAlignmentSpeed>k__BackingField: 120
   <ExternalSpinDecayRate>k__BackingField: 1.2
   <MaxExternalSpinSpeed>k__BackingField: 1440
 --- !u!50 &5879468417146155605
@@ -452,7 +453,7 @@ Rigidbody2D:
   m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!61 &3720178901367830400
 BoxCollider2D:
   m_ObjectHideFlags: 0

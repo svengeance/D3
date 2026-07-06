@@ -26,15 +26,16 @@ public class EnemyMovementBehavior : MonoBehaviour
     private float ExternalForceDecayRate { get; set; } = 3f;
 
     [field: SerializeField]
+    private float ExternalVelocityAlignmentSpeed { get; set; } = 120f;
+
+    [field: SerializeField]
     private float ExternalSpinDecayRate { get; set; } = 1.2f;
 
     [field: SerializeField]
     private float MaxExternalSpinSpeed { get; set; } = 1440f;
 
     private PlayerController Player { get; set; }
-
-    private Vector2 LastMovementDirection { get; set; } = Vector2.left;
-
+    
     private float TurnSpeedPenaltyMultiplier { get; set; } = 1f;
 
     private float VerticalBufferAroundPlayer { get; set; }
@@ -47,8 +48,8 @@ public class EnemyMovementBehavior : MonoBehaviour
 
     private void Awake()
     {
+        RigidBody.freezeRotation = true;
         VerticalBufferAroundPlayer = Random.Range(0.3f, 1f);
-        LastMovementDirection = -transform.right;
     }
 
     private void Start()
@@ -60,10 +61,10 @@ public class EnemyMovementBehavior : MonoBehaviour
     private void FixedUpdate()
     {
         var steeringDirection = CalculateSteering();
-        var externalVelocity = CalculateExternalVelocity();
         var bodyRotation = RotateTowardSteering(steeringDirection);
         var facingRadians = (bodyRotation - 180f) * Mathf.Deg2Rad;
         var facingDirection = new Vector2(Mathf.Cos(facingRadians), Mathf.Sin(facingRadians));
+        var externalVelocity = CalculateExternalVelocity(facingDirection);
 
         RigidBody.rotation = bodyRotation;
         var targetDriveVelocity = InternalDriveSpeed * TurnSpeedPenaltyMultiplier;
@@ -73,7 +74,6 @@ public class EnemyMovementBehavior : MonoBehaviour
             InternalAcceleration * Time.fixedDeltaTime);
 
         RigidBody.linearVelocity = facingDirection * InternalDriveVelocity + externalVelocity;
-        RigidBody.angularVelocity = 0f;
     }
 
     public void ApplyExternalVelocity(Vector2 velocityDelta)
@@ -149,8 +149,22 @@ public class EnemyMovementBehavior : MonoBehaviour
         return separationForce;
     }
 
-    private Vector2 CalculateExternalVelocity()
+    private Vector2 CalculateExternalVelocity(Vector2 facingDirection)
     {
+        if (ExternalVelocity.sqrMagnitude > 0.0001f && facingDirection.sqrMagnitude > 0.0001f)
+        {
+            var currentAngle = Mathf.Atan2(ExternalVelocity.y, ExternalVelocity.x) * Mathf.Rad2Deg;
+            var targetAngle = Mathf.Atan2(facingDirection.y, facingDirection.x) * Mathf.Rad2Deg;
+            var alignedAngle = Mathf.MoveTowardsAngle(
+                currentAngle,
+                targetAngle,
+                ExternalVelocityAlignmentSpeed * Time.fixedDeltaTime);
+            var alignedDirection = new Vector2(
+                Mathf.Cos(alignedAngle * Mathf.Deg2Rad),
+                Mathf.Sin(alignedAngle * Mathf.Deg2Rad));
+            ExternalVelocity = alignedDirection * ExternalVelocity.magnitude;
+        }
+
         var result = ExternalVelocity;
         ExternalVelocity = Vector2.Lerp(ExternalVelocity, Vector2.zero, Time.fixedDeltaTime * ExternalForceDecayRate);
         return result;
@@ -171,7 +185,6 @@ public class EnemyMovementBehavior : MonoBehaviour
         nextBodyAngle += ExternalAngularVelocity * Time.fixedDeltaTime;
         ExternalAngularVelocity = Mathf.Lerp(ExternalAngularVelocity, 0f, Time.fixedDeltaTime * ExternalSpinDecayRate);
 
-        LastMovementDirection = steeringDirection;
         TurnSpeedPenaltyMultiplier = CalculateTurnSpeedMultiplier(nextBodyAngle, targetBodyAngle);
 
         return nextBodyAngle;

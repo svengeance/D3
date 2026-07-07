@@ -10,6 +10,9 @@ public class EnemyController : MonoBehaviour
     private EnemyMovementBehavior MovementBehavior { get; set; }
 
     [field: SerializeField]
+    private EnemyCollisionVfxController CollisionVfxController { get; set; }
+
+    [field: SerializeField]
     private SpriteRenderer SpriteRenderer { get; set; }
 
     [field: SerializeField]
@@ -38,11 +41,7 @@ public class EnemyController : MonoBehaviour
 
     // x = how close the hit is to a corner (0 = dead center of an edge, 1 = exact corner); y = spin multiplier at that point
     [field: SerializeField]
-    private AnimationCurve SpinCornerMultiplier { get; set; } = new(
-        new Keyframe(0f, 0.5f),
-        new Keyframe(0.20f, 0.5f),
-        new Keyframe(0.65f, 0.85f),
-        new Keyframe(1f, 1.25f));
+    private AnimationCurve SpinCornerMultiplier { get; set; } = new(new Keyframe(0f, 0.5f), new Keyframe(0.20f, 0.5f), new Keyframe(0.65f, 0.85f), new Keyframe(1f, 1.25f));
 
     private BoxCollider2D VehicleCollider { get; set; }
 
@@ -61,6 +60,19 @@ public class EnemyController : MonoBehaviour
         SpriteRenderer.sprite = Data.Sprite;
 
         OnTakeDamage.AddListener(Damage);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        switch (collision.gameObject.layer)
+        {
+            case Layers.Terrain:
+                HandleTerrainCollision(collision);
+                return;
+            case Layers.Enemy:
+                HandleEnemyCollision(collision);
+                return;
+        }
     }
 
     // EnemyMovementBehavior splits goal-seeking drive from impact state, so impacts are
@@ -89,19 +101,6 @@ public class EnemyController : MonoBehaviour
         return Mathf.Clamp01(Mathf.Min(Mathf.Abs(localOffset.x) / halfExtents.x, Mathf.Abs(localOffset.y) / halfExtents.y));
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        switch (collision.gameObject.layer)
-        {
-            case Layers.Terrain:
-                HandleTerrainCollision(collision);
-                return;
-            case Layers.Enemy:
-                HandleEnemyCollision(collision);
-                return;
-        }
-    }
-
     private void HandleTerrainCollision(Collision2D collision)
     {
         var impactSpeed = collision.relativeVelocity.magnitude;
@@ -109,6 +108,7 @@ public class EnemyController : MonoBehaviour
             return;
 
         OnTakeDamage.Invoke(impactSpeed * TerrainDamagePerImpactSpeed);
+        CollisionVfxController.PlayVfx(CollisionType.EnemyTerrain, collision.GetContact(0).point);
     }
 
     private void HandleEnemyCollision(Collision2D collision)
@@ -124,6 +124,7 @@ public class EnemyController : MonoBehaviour
             return;
 
         OnTakeDamage.Invoke(collision.rigidbody.mass * impactSpeed * EnemyDamagePerMassImpactSpeed);
+        CollisionVfxController.PlayVfx(CollisionType.EnemyEnemy, collision.GetContact(0).point);
     }
 
     private void Damage(float amount)

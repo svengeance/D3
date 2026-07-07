@@ -314,9 +314,9 @@ GameObject:
   - component: {fileID: 1513481838374580285}
   - component: {fileID: 7823205900920248483}
   - component: {fileID: 2381667885379314634}
+  - component: {fileID: -2037956931063457731}
   - component: {fileID: 5879468417146155605}
   - component: {fileID: 3720178901367830400}
-  - component: {fileID: -2037956931063457731}
   m_Layer: 7
   m_Name: Enemy
   m_TagString: Untagged
@@ -429,6 +429,21 @@ MonoBehaviour:
   <ExternalVelocityAlignmentSpeed>k__BackingField: 120
   <ExternalSpinDecayRate>k__BackingField: 1.2
   <MaxExternalSpinSpeed>k__BackingField: 1440
+--- !u!114 &-2037956931063457731
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2464490111599775981}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59b3c5969d72cee4e9a22bed6ba7e9e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyCollisionVfxController
+  <EnemyCollisionMaterial>k__BackingField: {fileID: 2100000, guid: 98147e745270e044c9720dffee7df293, type: 2}
+  <WallCollisionMaterial>k__BackingField: {fileID: 2100000, guid: 8005a9b80b232e644a532b0db0b65edb, type: 2}
+  <ParticleSystemPrefab>k__BackingField: {fileID: 3908093872509217665, guid: f36547095a3c8884e8f69a4b31b5d86d, type: 3}
 --- !u!50 &5879468417146155605
 Rigidbody2D:
   serializedVersion: 5
@@ -502,21 +517,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.4203024, y: 0.38040423}
   m_EdgeRadius: 0
---- !u!114 &-2037956931063457731
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2464490111599775981}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59b3c5969d72cee4e9a22bed6ba7e9e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyCollisionVfxController
-  <EnemyCollisionMaterial>k__BackingField: {fileID: 2100000, guid: 98147e745270e044c9720dffee7df293, type: 2}
-  <WallCollisionMaterial>k__BackingField: {fileID: 2100000, guid: 8005a9b80b232e644a532b0db0b65edb, type: 2}
-  <ParticleSystemPrefab>k__BackingField: {fileID: 3908093872509217665, guid: f36547095a3c8884e8f69a4b31b5d86d, type: 3}
 --- !u!1 &5929324954489591807
 GameObject:
   m_ObjectHideFlags: 0

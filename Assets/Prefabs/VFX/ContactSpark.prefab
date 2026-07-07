@@ -4883,7 +4883,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyCollisionVfxController
   <EnemyCollisionMaterial>k__BackingField: {fileID: 2100000, guid: 98147e745270e044c9720dffee7df293, type: 2}
   <WallCollisionMaterial>k__BackingField: {fileID: 2100000, guid: e90a9cd1e256e5c498b4fef7e3739908, type: 2}
-  <ParticleSystemPrefab>k__BackingField: {fileID: 0}
+  <ParticleSystemPrefab>k__BackingField: {fileID: 3908093872509217665}
 --- !u!198 &3908093872509217665
 ParticleSystem:
   m_ObjectHideFlags: 0

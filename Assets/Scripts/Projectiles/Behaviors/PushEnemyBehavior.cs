@@ -3,13 +3,16 @@ using UnityEngine;
 public class PushEnemyBehavior : ProjectileBehavior
 {
     [field: SerializeField]
-    public float ForceMultiplier { get; private set; } = 5f;
+    public float ForceMultiplier { get; private set; } = 10f;
 
     [field: SerializeField]
-    public float MaxPushForce { get; private set; } = 10f;
+    public float MaxPushForce { get; private set; } = 50f;
 
     [field: SerializeField]
     public float GlancingHitMultiplier { get; private set; } = 0.35f;
+
+    [field: SerializeField]
+    public float ImpactLeverArmMultiplier { get; private set; } = 0.05f;
 
     public override void OnEnemyCollide(ProjectileController projectile, EnemyController target, Collision2D collision)
     {
@@ -23,17 +26,19 @@ public class PushEnemyBehavior : ProjectileBehavior
         var direction = impactVelocity.sqrMagnitude > 0.0001f
             ? impactVelocity.normalized
             : ((Vector2)target.transform.position - (Vector2)projectile.transform.position).normalized;
+        var incomingDirection = direction;
 
         var speed = Mathf.Max(impactVelocity.magnitude, collision.relativeVelocity.magnitude);
         var contactPoint = collision.contactCount > 0 ? collision.GetContact(0).point : (Vector2)target.transform.position;
+
         var alignment = collision.contactCount > 0
-            ? Mathf.Abs(Vector2.Dot(direction, -collision.GetContact(0).normal))
+            ? Mathf.Abs(Vector2.Dot(incomingDirection, -collision.GetContact(0).normal))
             : 1f;
         var impactStrength = Mathf.Lerp(GlancingHitMultiplier, 1f, alignment);
         var pushImpulse = Mathf.Min(speed * ForceMultiplier * impactStrength, MaxPushForce);
 
-        // Apply the knockback as a physics impulse at the actual contact point so
-        // the engine produces both the shove and the correct spin for off-centre hits.
-        target.ApplyImpact(direction * pushImpulse, contactPoint);
+        var impactPoint = Vector2.Lerp(target.transform.position, contactPoint, ImpactLeverArmMultiplier);
+        target.ApplyImpact(direction * pushImpulse, impactPoint);
     }
+
 }

@@ -363,51 +363,6 @@ MonoBehaviour:
   <MinTerrainImpactSpeed>k__BackingField: 2
   <EnemyDamagePerMassImpactSpeed>k__BackingField: 0.5
   <MinEnemyImpactSpeed>k__BackingField: 3
-  <ImpactSpinMultiplier>k__BackingField: 72
-  <MaxImpactSpin>k__BackingField: 1440
-  <MaxSpinImpulse>k__BackingField: 12
-  <SpinCornerMultiplier>k__BackingField:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0.5
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 0.2
-      value: 0.5
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 0.65
-      value: 0.85
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1.25
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!114 &2381667885379314634
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -425,10 +380,6 @@ MonoBehaviour:
   <InternalAcceleration>k__BackingField: 12
   <InternalTurnSpeed>k__BackingField: 80
   <MinTurnDriveMultiplier>k__BackingField: 0.8
-  <ExternalForceDecayRate>k__BackingField: 3
-  <ExternalVelocityAlignmentSpeed>k__BackingField: 120
-  <ExternalSpinDecayRate>k__BackingField: 1.2
-  <MaxExternalSpinSpeed>k__BackingField: 1440
 --- !u!114 &-2037956931063457731
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -456,9 +407,9 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 3.5
-  m_LinearDamping: 0
-  m_AngularDamping: 0
+  m_Mass: 5
+  m_LinearDamping: 3
+  m_AngularDamping: 1.2
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -470,7 +421,7 @@ Rigidbody2D:
   m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 4
+  m_Constraints: 0
 --- !u!61 &3720178901367830400
 BoxCollider2D:
   m_ObjectHideFlags: 0
